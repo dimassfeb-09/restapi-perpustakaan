@@ -1,0 +1,12 @@
+
+POST http://localhost:8080/user/add
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": "Dimas Febriyanto",
+  "username": "dimaassfeb",
+  "password": "automenu",
+  "email": "dimaassfeb@gmail.com",
+  "level": "anggota"
+}
