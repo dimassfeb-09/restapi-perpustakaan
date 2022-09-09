@@ -1,10 +1,10 @@
 # Required
-## Controller, Service, Repository
+## Go Controller, Service, Repository
 - **Controller** digunakan untuk memanajemen Interface request input oleh user untuk melanjutkan ke tahap Bisnis Logic. Lokasi: [/controller](/controller)
 - **Service** digunakan untuk melakukan Middleware, Errorhandling, Validasi Data., dan Bisnis Logic untuk meneruskan ke tahap Repository. Lokasi: [/service](/service)
 - **Repository** digunakan untuk memanipulasi data dengan models berinteraksi dengan Database. Lokasi: [/repository](/repository)
 
-## Error Handling dan Middleware
+## Go Error Handling dan Middleware
 - **Error Handling** digunakan untuk menghandle terjadinya error-error yang kemungkinan terjadi, contoh:
 ```
 func notFoundErr(c *gin.Context, recovered interface{}) bool {
@@ -25,7 +25,7 @@ func notFoundErr(c *gin.Context, recovered interface{}) bool {
 ```
 Lokasi: [/exception](/exception)
 
-## Model
+## Go Model
 - **Model** digunakan untuk menyimpan data dalam bentuk objek, contoh:
 ```
 type User struct {
@@ -42,7 +42,8 @@ Lokasi [/model/domain/](/model/domain/)
 
 
 
-## Request, Validasi, Response
+
+## Go Request, Validasi, Response
 - **Request** digunakan controller untuk menyimpan data yang diinput oleh user ke dalam model, contoh:
 ```
 type UserCreateRequest struct {
