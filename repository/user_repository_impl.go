@@ -62,8 +62,8 @@ func (repository *UserRepositoryImpl) FindBy(ctx context.Context, tx *sql.Tx, fi
 
 	var SQL string
 	switch filterBy {
-	case "name":
-		SQL = "SELECT id, name, username, password, email, level, create_at FROM users WHERE name = ?"
+	case "username":
+		SQL = "SELECT id, name, username, password, email, level, create_at FROM users WHERE username = ?"
 		break
 	case "id":
 		SQL = "SELECT id, name, username, password, email, level, create_at FROM users WHERE id = ?"
@@ -80,7 +80,7 @@ func (repository *UserRepositoryImpl) FindBy(ctx context.Context, tx *sql.Tx, fi
 		helper.PanicIfError(err)
 		return user, nil
 	} else {
-		return user, errors.New("User " + strconv.Itoa(value.(int)) + " tidak ditemukan")
+		return user, errors.New("Data tidak ditemukan")
 	}
 }
 

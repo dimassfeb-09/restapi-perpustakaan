@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"github.com/dimassfeb-09/restapi-perpustakaan/exception"
 	"github.com/dimassfeb-09/restapi-perpustakaan/helper"
 	"github.com/dimassfeb-09/restapi-perpustakaan/model/web"
 	"github.com/dimassfeb-09/restapi-perpustakaan/model/web/user"
@@ -80,11 +81,44 @@ func (controller *UserControllerImpl) Delete(c *gin.Context) {
 }
 
 func (controller *UserControllerImpl) FindBy(c *gin.Context) {
-	//TODO implement me
-	panic("implement me")
+
+	filterBy := c.Param("filterBy")
+	value := c.Param("value")
+
+	var userResponse user.UserResponse
+
+	switch filterBy {
+	case "username":
+		userResponse = controller.UserService.FindBy(c.Request.Context(), "username", value)
+		break
+	case "id":
+		Id, err := strconv.Atoi(value)
+		if err != nil {
+			panic(exception.NewErrorInvalidDataType("Tipe data harus Integer"))
+		}
+		userResponse = controller.UserService.FindBy(c.Request.Context(), "id", Id)
+		break
+	}
+
+	c.JSON(http.StatusOK, web.WebResponse{
+		Code:   http.StatusOK,
+		Status: "OK",
+		Data:   userResponse,
+	})
 }
 
 func (controller *UserControllerImpl) FindById(c *gin.Context) {
-	//TODO implement me
-	panic("implement me")
+
+	userId := c.Param("id")
+	userIdInt, err := strconv.Atoi(userId)
+	helper.PanicIfError(err)
+
+	userResponse, err := controller.UserService.FindById(c.Request.Context(), userIdInt)
+	helper.PanicIfError(err)
+
+	c.JSON(http.StatusOK, web.WebResponse{
+		Code:   http.StatusOK,
+		Status: "OK",
+		Data:   userResponse,
+	})
 }

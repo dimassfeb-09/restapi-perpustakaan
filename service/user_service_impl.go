@@ -91,7 +91,9 @@ func (service *UserServiceImpl) FindBy(ctx context.Context, filterBy string, val
 	helper.PanicIfError(err)
 
 	findBy, err := service.UserRepository.FindBy(ctx, tx, filterBy, value)
-	helper.PanicIfError(err)
+	if err != nil {
+		panic(exception.NewErrorNotFound(err.Error()))
+	}
 
 	return helper.ToUserResponse(findBy)
 }

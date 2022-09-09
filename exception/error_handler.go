@@ -12,6 +12,10 @@ func ErrorHandler(c *gin.Context, recovered interface{}) {
 		return
 	}
 
+	if errorInvalidDataType(c, recovered) == true {
+		return
+	}
+
 	if notFoundErr(c, recovered) == true {
 		return
 	}
@@ -20,6 +24,22 @@ func ErrorHandler(c *gin.Context, recovered interface{}) {
 		return
 	}
 
+}
+
+func errorInvalidDataType(c *gin.Context, recovered interface{}) bool {
+	err, ok := recovered.(ErrorInvalidDataType)
+
+	if ok {
+		webResponse := web.WebResponse{
+			Code:   http.StatusBadRequest,
+			Status: "Bad Request",
+			Data:   err,
+		}
+		c.JSON(http.StatusBadRequest, webResponse)
+		return true
+	}
+
+	return false
 }
 
 func notFoundErr(c *gin.Context, recovered interface{}) bool {
