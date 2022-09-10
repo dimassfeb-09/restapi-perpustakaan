@@ -1,5 +1,6 @@
 ## DELETE User
 - End Point URL: `/user/delete/{userId}`
+    - Method: `DELETE`
     - Content-Type: `application/json`
     - Accept: `application/json`
     - Header:

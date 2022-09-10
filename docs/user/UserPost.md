@@ -1,5 +1,6 @@
 ## POST User
 - End Point URL: `/user/add`
+    - Method: `POST`
     - Content-Type: `application/json`
     - Accept: `application/json`
     - Header:

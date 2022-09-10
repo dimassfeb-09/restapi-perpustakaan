@@ -1,5 +1,6 @@
 ## GET User By ID
 - End Point URL: `/user/{userId}`
+    - Method: `GET`
     - Content-Type: `application/json`
     - Accept: `application/json`
     - Header:

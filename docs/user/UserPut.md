@@ -1,5 +1,6 @@
 ## PUT User
 - End Point URL: `/user/update/{userId}`
+    - Method: `PUT`
     - Content-Type: `application/json`
     - Accept: `application/json`
     - Header:
