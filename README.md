@@ -1,69 +1,21 @@
 # API Documentation
-## POST User
-- End Point URL: `/user/add`
-	- Content-Type: `application/json`
-	- Accept: `application/json`
-	- Header:
-		| Header 	| Type     | Description                |
-		| :-------- | :------- | :------------------------- |
-		| `X-API-KEY` | `string` | **Required**. Your API key |
-	- Body:
-		```json
-		{
-			"name": "string",
-			"username": "string",
-			"password": "string",
-			"email": "string",
-			"level": "string",
-		}
-		```
-	- Response Body
-		```json
-		{
-			"code": 200,
-			"status": "OK",
-			"data": {
-				"id": "int",
-				"name": "string",
-				"username": "string",
-				"email": "string",
-				"level": "string",
-				"create_at": "datetime"
-			}
-		}
-		```
-	- Response Error
-		- Bad Not Found
-		```json
-		{
-			"code": 404,
-			"status": "Bad Not Found",
-			"data": {
-				"error": "Data tidak ditemukan",
-			}
-		}
-		```
-		- Bad Request
-		```json
-		{
-			"code": 400,
-			"status": "Bad Request",
-			"data": {
-				"error": "Username telah terdaftar"
-			}
-		}
-		```
-		- Internal Server Error
-		```json
-		{
-			"code": 500,
-			"status": "Status Internal Server Error",
-			"data": {
-				"error": "Status Internal Server Error"
-			}
-		}
-		```
 
+## Users API
+- POST 
+  - End Point:`/user/add`
+  - Docs [Here](/docs/user/UserPost.md)
+- PUT
+  - End Point: `/user/update/{userId}`
+  - Docs [Here](/docs/user/UserPut.md)
+- DELETE
+  - End Point: `/user/update/{userId}`
+  - Docs [Here](/docs/user/UserDelete.md)
+- GET BY ID
+  - End Point: `/user/{userId}`
+  - Docs [Here](/docs/user/UserGetById.md)
+- GET ALL
+  - End Point: `/user`
+  - Docs [Here](/docs/user/UserGetAll.md)
 
 
 
