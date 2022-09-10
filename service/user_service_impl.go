@@ -26,12 +26,12 @@ func (service *UserServiceImpl) Create(ctx context.Context, request user.UserCre
 
 	userUsername, _ := service.UserRepository.FindByUsername(ctx, tx, request.Username)
 	if userUsername.Username == request.Username {
-		panic(exception.NewErrorDuplicate("Username telah digunakan"))
+		panic(exception.NewErrorDataRegistered("Username telah digunakan"))
 	}
 
 	userEmail, _ := service.UserRepository.FindByEmail(ctx, tx, request.Email)
 	if userEmail.Email == request.Email {
-		panic(exception.NewErrorDuplicate("Email telah digunakan"))
+		panic(exception.NewErrorDataRegistered("Email telah digunakan"))
 	}
 
 	users := domain.User{
@@ -49,17 +49,17 @@ func (service *UserServiceImpl) Create(ctx context.Context, request user.UserCre
 }
 
 func (service *UserServiceImpl) Update(ctx context.Context, request user.UserUpdateRequest) user.UserResponse {
-
 	tx, err := service.DB.Begin()
 	helper.PanicIfError(err)
 	defer helper.RollbackOrCommit(tx)
 
-	_, err = service.UserRepository.FindById(ctx, tx, request.Id)
+	_, errMsg := service.UserRepository.FindById(ctx, tx, request.Id)
 	if err != nil {
-		panic(exception.NewErrorNotFound(err.Error()))
+		panic(exception.NewErrorNotFound(errMsg.Error()))
 	}
 
-	users := domain.User{
+	userUpdate := domain.User{
+		Id:       request.Id,
 		Name:     request.Name,
 		Username: request.Username,
 		Password: request.Password,
@@ -68,9 +68,9 @@ func (service *UserServiceImpl) Update(ctx context.Context, request user.UserUpd
 		CreateAt: request.CreateAt,
 	}
 
-	userUpdate := service.UserRepository.Update(ctx, tx, users)
+	responseUser := service.UserRepository.Update(ctx, tx, userUpdate)
 
-	return helper.ToUserResponse(userUpdate)
+	return helper.ToUserResponse(responseUser)
 }
 
 func (service *UserServiceImpl) Delete(ctx context.Context, userId int) {
@@ -84,19 +84,6 @@ func (service *UserServiceImpl) Delete(ctx context.Context, userId int) {
 	}
 
 	service.UserRepository.Delete(ctx, tx, findId.Id)
-}
-
-func (service *UserServiceImpl) FindBy(ctx context.Context, filterBy string, value interface{}) user.UserResponse {
-
-	tx, err := service.DB.Begin()
-	helper.PanicIfError(err)
-
-	findBy, err := service.UserRepository.FindBy(ctx, tx, filterBy, value)
-	if err != nil {
-		panic(exception.NewErrorNotFound(err.Error()))
-	}
-
-	return helper.ToUserResponse(findBy)
 }
 
 func (service *UserServiceImpl) FindById(ctx context.Context, userId int) (user.UserResponse, error) {

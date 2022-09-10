@@ -1,9 +1,7 @@
 package controller
 
 import (
-	"github.com/dimassfeb-09/restapi-perpustakaan/exception"
 	"github.com/dimassfeb-09/restapi-perpustakaan/helper"
-	"github.com/dimassfeb-09/restapi-perpustakaan/model/web"
 	"github.com/dimassfeb-09/restapi-perpustakaan/model/web/user"
 	"github.com/dimassfeb-09/restapi-perpustakaan/service"
 	"github.com/gin-gonic/gin"
@@ -26,18 +24,10 @@ func (controller *UserControllerImpl) Create(c *gin.Context) {
 	err := c.ShouldBindJSON(&createRequest)
 	helper.ErrorShouldBind(c, err, http.StatusBadRequest, "Status Bad Request")
 
-	apiKey := c.Request.Header.Get("X-API-KEY")
-	if apiKey == "" {
-		helper.ErrorShouldBind(c, err, http.StatusUnauthorized, "Unauthorized X-API-KEY")
-	}
-
 	userResponse := controller.UserService.Create(c.Request.Context(), createRequest)
 
-	c.JSON(http.StatusOK, web.WebResponse{
-		Code:   http.StatusOK,
-		Status: "OK",
-		Data:   userResponse,
-	})
+	webResponse := helper.WebResponse(http.StatusOK, "OK", userResponse)
+	c.JSON(http.StatusOK, webResponse)
 }
 
 func (controller *UserControllerImpl) Update(c *gin.Context) {
@@ -50,15 +40,14 @@ func (controller *UserControllerImpl) Update(c *gin.Context) {
 	userIdInt, err := strconv.Atoi(userId)
 	helper.PanicIfError(err)
 
-	controller.UserService.FindBy(c.Request.Context(), "id", userIdInt)
+	_, errMsg := controller.UserService.FindById(c.Request.Context(), userIdInt)
+	helper.PanicIfError(errMsg)
 
+	updateRequest.Id = userIdInt
 	userResponse := controller.UserService.Update(c.Request.Context(), updateRequest)
 
-	c.JSON(http.StatusOK, web.WebResponse{
-		Code:   http.StatusOK,
-		Status: "OK",
-		Data:   userResponse,
-	})
+	webResponse := helper.WebResponse(http.StatusOK, "OK", userResponse)
+	c.JSON(http.StatusOK, webResponse)
 }
 
 func (controller *UserControllerImpl) Delete(c *gin.Context) {
@@ -72,39 +61,9 @@ func (controller *UserControllerImpl) Delete(c *gin.Context) {
 
 	controller.UserService.Delete(c.Request.Context(), findById.Id)
 
-	c.JSON(http.StatusOK, web.WebResponse{
-		Code:   http.StatusOK,
-		Status: "OK",
-		Data:   "Berhasil hapus ID " + strconv.Itoa(userIdInt),
-	})
+	webResponse := helper.WebResponse(http.StatusOK, "OK", "Berhasil hapus ID "+strconv.Itoa(userIdInt))
+	c.JSON(http.StatusOK, webResponse)
 
-}
-
-func (controller *UserControllerImpl) FindBy(c *gin.Context) {
-
-	filterBy := c.Param("filterBy")
-	value := c.Param("value")
-
-	var userResponse user.UserResponse
-
-	switch filterBy {
-	case "username":
-		userResponse = controller.UserService.FindBy(c.Request.Context(), "username", value)
-		break
-	case "id":
-		Id, err := strconv.Atoi(value)
-		if err != nil {
-			panic(exception.NewErrorInvalidDataType("Tipe data harus Integer"))
-		}
-		userResponse = controller.UserService.FindBy(c.Request.Context(), "id", Id)
-		break
-	}
-
-	c.JSON(http.StatusOK, web.WebResponse{
-		Code:   http.StatusOK,
-		Status: "OK",
-		Data:   userResponse,
-	})
 }
 
 func (controller *UserControllerImpl) FindById(c *gin.Context) {
@@ -116,9 +75,6 @@ func (controller *UserControllerImpl) FindById(c *gin.Context) {
 	userResponse, err := controller.UserService.FindById(c.Request.Context(), userIdInt)
 	helper.PanicIfError(err)
 
-	c.JSON(http.StatusOK, web.WebResponse{
-		Code:   http.StatusOK,
-		Status: "OK",
-		Data:   userResponse,
-	})
+	webResponse := helper.WebResponse(http.StatusOK, "OK", userResponse)
+	c.JSON(http.StatusOK, webResponse)
 }

@@ -11,11 +11,7 @@ func notFoundErr(c *gin.Context, recovered interface{}) bool {
 	err, ok := recovered.(NotFoundError)
 
 	if ok {
-		webResponse := web.WebResponse{
-			Code:   http.StatusNotFound,
-			Status: "Bad Not Found",
-			Data:   err,
-		}
+		webResponse := helper.webResponse(http.StatusNotFound, "Bad Not Found", err)
 		c.JSON(http.StatusNotFound, webResponse)
 		return true
 	}

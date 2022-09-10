@@ -29,8 +29,8 @@ func (repository *UserRepositoryImpl) Create(ctx context.Context, tx *sql.Tx, us
 }
 
 func (repository *UserRepositoryImpl) Update(ctx context.Context, tx *sql.Tx, user domain.User) domain.User {
-	SQL := "UPDATE users SET name = ?, username = ?, password = ?, email = ?, level = ?, create_at = ? WHERE id = ?"
-	_, err := tx.ExecContext(ctx, SQL, user.Name, user.Username, user.Password, user.Email, user.Level, user.CreateAt, user.Id)
+	SQL := "UPDATE users SET id = ?, name = ?, username = ?, password = ?, email = ?, level = ? WHERE id = ?"
+	_, err := tx.ExecContext(ctx, SQL, user.Id, user.Name, user.Username, user.Password, user.Email, user.Level, user.Id)
 	helper.PanicIfError(err)
 
 	return user
@@ -48,7 +48,7 @@ func (repository *UserRepositoryImpl) FindById(ctx context.Context, tx *sql.Tx, 
 	helper.PanicIfError(err)
 	defer rows.Close()
 
-	user := domain.User{}
+	var user domain.User
 	if rows.Next() {
 		err := rows.Scan(&user.Id, &user.Name, &user.Username, &user.Password, &user.Email, &user.Level, &user.CreateAt)
 		helper.PanicIfError(err)
@@ -106,30 +106,4 @@ func (repository *UserRepositoryImpl) FindAll(ctx context.Context, tx *sql.Tx) [
 	}
 
 	return users
-}
-
-func (repository *UserRepositoryImpl) FindBy(ctx context.Context, tx *sql.Tx, filterBy string, value interface{}) (domain.User, error) {
-
-	var SQL string
-	switch filterBy {
-	case "username":
-		SQL = "SELECT id, name, username, password, email, level, create_at FROM users WHERE username = ?"
-		break
-	case "id":
-		SQL = "SELECT id, name, username, password, email, level, create_at FROM users WHERE id = ?"
-		break
-	}
-
-	rows, err := tx.QueryContext(ctx, SQL, value)
-	helper.PanicIfError(err)
-	defer rows.Close()
-
-	user := domain.User{}
-	if rows.Next() {
-		err := rows.Scan(&user.Id, &user.Name, &user.Username, &user.Password, &user.Email, &user.Level, &user.CreateAt)
-		helper.PanicIfError(err)
-		return user, nil
-	} else {
-		return user, errors.New("Data tidak ditemukan")
-	}
 }
