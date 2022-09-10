@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"errors"
+	"github.com/dimassfeb-09/restapi-perpustakaan/exception"
 	"github.com/dimassfeb-09/restapi-perpustakaan/helper"
 	"github.com/dimassfeb-09/restapi-perpustakaan/model/domain"
 	"strconv"
@@ -29,7 +30,7 @@ func (repository *CategoriesRepositoryImpl) Create(ctx context.Context, tx *sql.
 }
 
 func (repository *CategoriesRepositoryImpl) Update(ctx context.Context, tx *sql.Tx, category domain.Categories) domain.Categories {
-	SQL := "UPDATE category SET name = ? WHERE id = ?"
+	SQL := "UPDATE categories SET name = ? WHERE id = ?"
 	_, err := tx.ExecContext(ctx, SQL, category.Name, category.Id)
 	helper.PanicIfError(err)
 
@@ -39,11 +40,13 @@ func (repository *CategoriesRepositoryImpl) Update(ctx context.Context, tx *sql.
 func (repository *CategoriesRepositoryImpl) Delete(ctx context.Context, tx *sql.Tx, categoryId int) {
 	SQL := "DELETE FROM categories WHERE id = ?"
 	_, err := tx.ExecContext(ctx, SQL, categoryId)
-	helper.PanicIfError(err)
+	if err != nil {
+		panic(exception.NewErrorBadRequest("Tidak dapat menghapus kategori yang terdapat buku"))
+	}
 }
 
 func (repository *CategoriesRepositoryImpl) FindAll(ctx context.Context, tx *sql.Tx) []domain.Categories {
-	SQL := "SELECT id, name FROM categories"
+	SQL := "SELECT id, name FROM categories ORDER BY id ASC"
 	rows, err := tx.QueryContext(ctx, SQL)
 	helper.PanicIfError(err)
 	defer rows.Close()
@@ -61,8 +64,8 @@ func (repository *CategoriesRepositoryImpl) FindAll(ctx context.Context, tx *sql
 }
 
 func (repository *CategoriesRepositoryImpl) FindById(ctx context.Context, tx *sql.Tx, categoryId int) (domain.Categories, error) {
-	SQL := "SELECT id, name FROM categories"
-	rows, err := tx.QueryContext(ctx, SQL)
+	SQL := "SELECT id, name FROM categories WHERE id = ?"
+	rows, err := tx.QueryContext(ctx, SQL, categoryId)
 	helper.PanicIfError(err)
 	defer rows.Close()
 
@@ -72,8 +75,8 @@ func (repository *CategoriesRepositoryImpl) FindById(ctx context.Context, tx *sq
 		helper.PanicIfError(err)
 		return category, nil
 	} else {
-		categoryId := strconv.Itoa(category.Id)
-		return category, errors.New("Category dengan ID " + categoryId + " tidak ditemukan")
+		Id := strconv.Itoa(categoryId)
+		return category, errors.New("Category dengan ID " + Id + " tidak ditemukan")
 	}
 
 }

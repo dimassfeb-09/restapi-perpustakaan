@@ -14,3 +14,11 @@ func NewInitializedUser(db *sql.DB) controller.UserController {
 
 	return userController
 }
+
+func NewInitializedCategories(db *sql.DB) controller.CategoriesController {
+	categoriesRepository := repository.NewCategoriesRepositoryImpl()
+	categoriesService := service.NewCategoryServiceImpl(categoriesRepository, db)
+	categoriesController := controller.NewCategoriesControllerImpl(categoriesService)
+
+	return categoriesController
+}

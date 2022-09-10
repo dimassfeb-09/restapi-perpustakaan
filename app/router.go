@@ -21,3 +21,11 @@ func NewUserRouter(r *gin.Engine, userController controller.UserController) {
 	r.GET("/user/:id", userController.FindById)
 	r.GET("/user", userController.FindAll)
 }
+
+func NewCategoryRouter(r *gin.Engine, categoryController controller.CategoriesController) {
+	r.POST("/category/add", categoryController.Create)
+	r.PUT("/category/update/:categoryId", categoryController.Update)
+	r.DELETE("/category/delete/:categoryId", categoryController.Delete)
+	r.GET("/category/:categoryId", categoryController.FindById)
+	r.GET("/category", categoryController.FindAll)
+}

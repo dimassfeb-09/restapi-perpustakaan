@@ -2,6 +2,7 @@ package helper
 
 import (
 	"github.com/dimassfeb-09/restapi-perpustakaan/model/domain"
+	"github.com/dimassfeb-09/restapi-perpustakaan/model/web/categories"
 	"github.com/dimassfeb-09/restapi-perpustakaan/model/web/user"
 )
 
@@ -23,4 +24,20 @@ func ToUserResponses(domainUsers []domain.User) []user.UserResponse {
 	}
 
 	return userResponses
+}
+
+func ToCategoryResponse(domainCategory domain.Categories) categories.CategoriesResponse {
+	return categories.CategoriesResponse{
+		Id:   domainCategory.Id,
+		Name: domainCategory.Name,
+	}
+}
+
+func ToCategoryResponses(domainCategories []domain.Categories) []categories.CategoriesResponse {
+	var categoryResponses []categories.CategoriesResponse
+	for _, data := range domainCategories {
+		categoryResponses = append(categoryResponses, ToCategoryResponse(data))
+	}
+
+	return categoryResponses
 }
