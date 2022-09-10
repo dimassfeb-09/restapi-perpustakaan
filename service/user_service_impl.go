@@ -8,6 +8,7 @@ import (
 	"github.com/dimassfeb-09/restapi-perpustakaan/model/domain"
 	"github.com/dimassfeb-09/restapi-perpustakaan/model/web/user"
 	"github.com/dimassfeb-09/restapi-perpustakaan/repository"
+	"strings"
 )
 
 type UserServiceImpl struct {
@@ -24,13 +25,17 @@ func (service *UserServiceImpl) Create(ctx context.Context, request user.UserCre
 	helper.PanicIfError(err)
 	defer helper.RollbackOrCommit(tx)
 
+	levelLower := strings.ToLower(request.Level)
 	userUsername, _ := service.UserRepository.FindByUsername(ctx, tx, request.Username)
-	if userUsername.Username == request.Username {
-		panic(exception.NewErrorDataRegistered("Username telah digunakan"))
-	}
-
 	userEmail, _ := service.UserRepository.FindByEmail(ctx, tx, request.Email)
-	if userEmail.Email == request.Email {
+
+	if len(request.Username) < 6 {
+		panic(exception.NewErrorBadRequest("Username harus lebih dari 6 huruf"))
+	} else if levelLower != "mahasiswa" && levelLower != "staff" {
+		panic(exception.NewErrorBadRequest("Level pengguna harus Mahasiswa / Staff"))
+	} else if userUsername.Username == request.Username {
+		panic(exception.NewErrorDataRegistered("Username telah digunakan"))
+	} else if userEmail.Email == request.Email {
 		panic(exception.NewErrorDataRegistered("Email telah digunakan"))
 	}
 
@@ -53,9 +58,14 @@ func (service *UserServiceImpl) Update(ctx context.Context, request user.UserUpd
 	helper.PanicIfError(err)
 	defer helper.RollbackOrCommit(tx)
 
-	_, errMsg := service.UserRepository.FindById(ctx, tx, request.Id)
+	_, err = service.UserRepository.FindById(ctx, tx, request.Id)
 	if err != nil {
-		panic(exception.NewErrorNotFound(errMsg.Error()))
+		panic(exception.NewErrorNotFound(err.Error()))
+	}
+
+	userEmail, err := service.UserRepository.FindByEmail(ctx, tx, request.Email)
+	if userEmail.Email == request.Email {
+		panic(exception.NewErrorDataRegistered("Email telah digunakan"))
 	}
 
 	userUpdate := domain.User{

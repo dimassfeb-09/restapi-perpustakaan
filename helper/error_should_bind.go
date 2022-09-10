@@ -14,4 +14,5 @@ func ErrorShouldBind(c *gin.Context, err error, code int, status string) {
 		}
 		c.JSON(code, webResponse)
 	}
+	return
 }

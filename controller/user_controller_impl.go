@@ -40,9 +40,6 @@ func (controller *UserControllerImpl) Update(c *gin.Context) {
 	userIdInt, err := strconv.Atoi(userId)
 	helper.PanicIfError(err)
 
-	_, errMsg := controller.UserService.FindById(c.Request.Context(), userIdInt)
-	helper.PanicIfError(errMsg)
-
 	updateRequest.Id = userIdInt
 	userResponse := controller.UserService.Update(c.Request.Context(), updateRequest)
 
@@ -76,5 +73,12 @@ func (controller *UserControllerImpl) FindById(c *gin.Context) {
 	helper.PanicIfError(err)
 
 	webResponse := helper.WebResponse(http.StatusOK, "OK", userResponse)
+	c.JSON(http.StatusOK, webResponse)
+}
+
+func (controller *UserControllerImpl) FindAll(c *gin.Context) {
+	userResponses := controller.UserService.FindAll(c.Request.Context())
+
+	webResponse := helper.WebResponse(http.StatusOK, "OK", userResponses)
 	c.JSON(http.StatusOK, webResponse)
 }

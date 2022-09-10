@@ -8,7 +8,7 @@
   - End Point: `/user/update/{userId}`
   - Docs [Here](/docs/user/UserPut.md)
 - DELETE
-  - End Point: `/user/update/{userId}`
+  - End Point: `/user/delete/{userId}`
   - Docs [Here](/docs/user/UserDelete.md)
 - GET BY ID
   - End Point: `/user/{userId}`
