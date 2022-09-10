@@ -24,13 +24,14 @@ func (service *UserServiceImpl) Create(ctx context.Context, request user.UserCre
 	helper.PanicIfError(err)
 	defer helper.RollbackOrCommit(tx)
 
-	userDatas := service.UserRepository.FindAll(ctx, tx)
-	for _, userData := range userDatas {
-		if userData.Email == request.Email {
-			panic(exception.NewErrorDuplicate("Email telah digunakan"))
-		} else if userData.Username == request.Username {
-			panic(exception.NewErrorDuplicate("Username telah digunakan"))
-		}
+	userUsername, _ := service.UserRepository.FindByUsername(ctx, tx, request.Username)
+	if userUsername.Username == request.Username {
+		panic(exception.NewErrorDuplicate("Username telah digunakan"))
+	}
+
+	userEmail, _ := service.UserRepository.FindByEmail(ctx, tx, request.Email)
+	if userEmail.Email == request.Email {
+		panic(exception.NewErrorDuplicate("Email telah digunakan"))
 	}
 
 	users := domain.User{
