@@ -32,6 +32,10 @@ func ErrorHandler(c *gin.Context, recovered interface{}) {
 		return
 	}
 
+	if errorUnauthorized(c, recovered) == true {
+		return
+	}
+
 }
 
 func errorForbidden(c *gin.Context, recovered interface{}) bool {
@@ -40,6 +44,17 @@ func errorForbidden(c *gin.Context, recovered interface{}) bool {
 	if ok {
 		webResponse := helper.WebResponse(http.StatusForbidden, "Forbidden", err)
 		c.JSON(http.StatusForbidden, webResponse)
+		return true
+	}
+	return false
+}
+
+func errorUnauthorized(c *gin.Context, recovered interface{}) bool {
+	err, ok := recovered.(ErrorUnauthorized)
+
+	if ok {
+		webResponse := helper.WebResponse(http.StatusUnauthorized, "Unauthorized", err)
+		c.JSON(http.StatusUnauthorized, webResponse)
 		return true
 	}
 	return false

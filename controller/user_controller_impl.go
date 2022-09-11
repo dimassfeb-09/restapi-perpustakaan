@@ -20,8 +20,13 @@ func NewUserControllerImpl(userService service.UserService) UserController {
 
 func (controller *UserControllerImpl) Create(c *gin.Context) {
 
-	var createRequest user.UserCreateRequest
+	xApiKey := c.Request.Header.Get("X-API-KEY")
+	if xApiKey != "RAHASIA" {
+		panic(exception.NewErrorUnauthorized("X-API-KEY Required."))
+	}
+	c.Writer.Header().Add("X-API-KEY", xApiKey)
 
+	var createRequest user.UserCreateRequest
 	err := c.ShouldBindJSON(&createRequest)
 	if err != nil {
 		panic(exception.NewErrorShouldBind(err.Error()))
@@ -34,6 +39,12 @@ func (controller *UserControllerImpl) Create(c *gin.Context) {
 }
 
 func (controller *UserControllerImpl) Update(c *gin.Context) {
+
+	xApiKey := c.Request.Header.Get("X-API-KEY")
+	if xApiKey != "RAHASIA" {
+		panic(exception.NewErrorUnauthorized("X-API-KEY Required."))
+	}
+	c.Writer.Header().Add("X-API-KEY", xApiKey)
 
 	var updateRequest user.UserUpdateRequest
 	err := c.ShouldBindJSON(&updateRequest)
@@ -54,6 +65,12 @@ func (controller *UserControllerImpl) Update(c *gin.Context) {
 
 func (controller *UserControllerImpl) Delete(c *gin.Context) {
 
+	xApiKey := c.Request.Header.Get("X-API-KEY")
+	if xApiKey != "RAHASIA" {
+		panic(exception.NewErrorUnauthorized("X-API-KEY Required."))
+	}
+	c.Writer.Header().Add("X-API-KEY", xApiKey)
+
 	userId := c.Param("id")
 	userIdInt, err := strconv.Atoi(userId)
 	helper.PanicIfError(err)
@@ -70,6 +87,12 @@ func (controller *UserControllerImpl) Delete(c *gin.Context) {
 
 func (controller *UserControllerImpl) FindById(c *gin.Context) {
 
+	xApiKey := c.Request.Header.Get("X-API-KEY")
+	if xApiKey != "RAHASIA" {
+		panic(exception.NewErrorUnauthorized("X-API-KEY Required."))
+	}
+	c.Writer.Header().Add("X-API-KEY", xApiKey)
+
 	userId := c.Param("id")
 	userIdInt, err := strconv.Atoi(userId)
 	helper.PanicIfError(err)
@@ -82,8 +105,15 @@ func (controller *UserControllerImpl) FindById(c *gin.Context) {
 }
 
 func (controller *UserControllerImpl) FindAll(c *gin.Context) {
-	userResponses := controller.UserService.FindAll(c.Request.Context())
 
+	xApiKey := c.Request.Header.Get("X-API-KEY")
+	if xApiKey != "RAHASIA" {
+		panic(exception.NewErrorUnauthorized("X-API-KEY Required."))
+	}
+	c.Writer.Header().Add("X-API-KEY", xApiKey)
+
+	userResponses := controller.UserService.FindAll(c.Request.Context())
 	webResponse := helper.WebResponse(http.StatusOK, "OK", userResponses)
 	c.JSON(http.StatusOK, webResponse)
+
 }

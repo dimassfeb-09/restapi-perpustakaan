@@ -19,8 +19,14 @@ func NewCategoriesControllerImpl(categoriesService service.CategoriesService) Ca
 }
 
 func (controller *CategoriesControllerImpl) Create(c *gin.Context) {
-	var categoriesRequestCreate categories.CategoriesCreateRequest
 
+	xApiKey := c.Request.Header.Get("X-API-KEY")
+	if xApiKey != "RAHASIA" {
+		panic(exception.NewErrorUnauthorized("X-API-KEY Required."))
+	}
+	c.Writer.Header().Add("X-API-KEY", xApiKey)
+
+	var categoriesRequestCreate categories.CategoriesCreateRequest
 	err := c.ShouldBindJSON(&categoriesRequestCreate)
 	if err != nil {
 		panic(exception.NewErrorShouldBind(err.Error()))
@@ -33,6 +39,13 @@ func (controller *CategoriesControllerImpl) Create(c *gin.Context) {
 }
 
 func (controller *CategoriesControllerImpl) Update(c *gin.Context) {
+
+	xApiKey := c.Request.Header.Get("X-API-KEY")
+	if xApiKey != "RAHASIA" {
+		panic(exception.NewErrorUnauthorized("X-API-KEY Required."))
+	}
+	c.Writer.Header().Add("X-API-KEY", xApiKey)
+
 	categoryId := c.Param("categoryId")
 	categoryIdInt, err := strconv.Atoi(categoryId)
 	helper.PanicIfError(err)
@@ -51,6 +64,13 @@ func (controller *CategoriesControllerImpl) Update(c *gin.Context) {
 }
 
 func (controller *CategoriesControllerImpl) Delete(c *gin.Context) {
+
+	xApiKey := c.Request.Header.Get("X-API-KEY")
+	if xApiKey != "RAHASIA" {
+		panic(exception.NewErrorUnauthorized("X-API-KEY Required."))
+	}
+	c.Writer.Header().Add("X-API-KEY", xApiKey)
+
 	categoryId := c.Param("categoryId")
 	categoryIdInt, err := strconv.Atoi(categoryId)
 	helper.PanicIfError(err)
@@ -63,6 +83,12 @@ func (controller *CategoriesControllerImpl) Delete(c *gin.Context) {
 
 func (controller *CategoriesControllerImpl) FindById(c *gin.Context) {
 
+	xApiKey := c.Request.Header.Get("X-API-KEY")
+	if xApiKey != "RAHASIA" {
+		panic(exception.NewErrorUnauthorized("X-API-KEY Required."))
+	}
+	c.Writer.Header().Add("X-API-KEY", xApiKey)
+
 	categoryId := c.Param("categoryId")
 	categoryIdInt, err := strconv.Atoi(categoryId)
 	helper.PanicIfError(err)
@@ -74,8 +100,14 @@ func (controller *CategoriesControllerImpl) FindById(c *gin.Context) {
 }
 
 func (controller *CategoriesControllerImpl) FindAll(c *gin.Context) {
-	categoriesResponses := controller.CategoriesService.FindAll(c.Request.Context())
 
+	xApiKey := c.Request.Header.Get("X-API-KEY")
+	if xApiKey != "RAHASIA" {
+		panic(exception.NewErrorUnauthorized("X-API-KEY Required."))
+	}
+	c.Writer.Header().Add("X-API-KEY", xApiKey)
+
+	categoriesResponses := controller.CategoriesService.FindAll(c.Request.Context())
 	webResponse := helper.WebResponse(http.StatusOK, "OK", categoriesResponses)
 	c.JSON(http.StatusOK, webResponse)
 }

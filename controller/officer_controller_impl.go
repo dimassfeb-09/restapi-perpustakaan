@@ -19,8 +19,14 @@ func NewOfficerControllerImpl(officerService service.OfficerService) OfficerCont
 }
 
 func (controller *OfficerControllerImpl) Create(c *gin.Context) {
-	var officerRequestCreate officer.OfficerCreateRequest
 
+	xApiKey := c.Request.Header.Get("X-API-KEY")
+	if xApiKey != "RAHASIA" {
+		panic(exception.NewErrorUnauthorized("X-API-KEY Required."))
+	}
+	c.Writer.Header().Add("X-API-KEY", xApiKey)
+
+	var officerRequestCreate officer.OfficerCreateRequest
 	err := c.ShouldBindJSON(&officerRequestCreate)
 	if err != nil {
 		panic(exception.NewErrorShouldBind(err.Error()))
@@ -33,12 +39,18 @@ func (controller *OfficerControllerImpl) Create(c *gin.Context) {
 }
 
 func (controller *OfficerControllerImpl) Update(c *gin.Context) {
+
+	xApiKey := c.Request.Header.Get("X-API-KEY")
+	if xApiKey != "RAHASIA" {
+		panic(exception.NewErrorUnauthorized("X-API-KEY Required."))
+	}
+	c.Writer.Header().Add("X-API-KEY", xApiKey)
+
 	officerId := c.Param("officerId")
 	officerIdInt, err := strconv.Atoi(officerId)
 	helper.PanicIfError(err)
 
 	var officerUpdateRequest officer.OfficerUpdateRequest
-
 	errMsg := c.ShouldBindJSON(&officerUpdateRequest)
 	if errMsg != nil {
 		panic(exception.NewErrorShouldBind(errMsg.Error()))
@@ -51,6 +63,13 @@ func (controller *OfficerControllerImpl) Update(c *gin.Context) {
 }
 
 func (controller *OfficerControllerImpl) Delete(c *gin.Context) {
+
+	xApiKey := c.Request.Header.Get("X-API-KEY")
+	if xApiKey != "RAHASIA" {
+		panic(exception.NewErrorUnauthorized("X-API-KEY Required."))
+	}
+	c.Writer.Header().Add("X-API-KEY", xApiKey)
+
 	officerId := c.Param("officerId")
 	officerIdInt, err := strconv.Atoi(officerId)
 	helper.PanicIfError(err)
@@ -63,6 +82,12 @@ func (controller *OfficerControllerImpl) Delete(c *gin.Context) {
 
 func (controller *OfficerControllerImpl) FindById(c *gin.Context) {
 
+	xApiKey := c.Request.Header.Get("X-API-KEY")
+	if xApiKey != "RAHASIA" {
+		panic(exception.NewErrorUnauthorized("X-API-KEY Required."))
+	}
+	c.Writer.Header().Add("X-API-KEY", xApiKey)
+
 	officerId := c.Param("officerId")
 	officerIdInt, err := strconv.Atoi(officerId)
 	helper.PanicIfError(err)
@@ -74,8 +99,14 @@ func (controller *OfficerControllerImpl) FindById(c *gin.Context) {
 }
 
 func (controller *OfficerControllerImpl) FindAll(c *gin.Context) {
-	officerResponses := controller.OfficerService.FindAll(c.Request.Context())
 
+	xApiKey := c.Request.Header.Get("X-API-KEY")
+	if xApiKey != "RAHASIA" {
+		panic(exception.NewErrorUnauthorized("X-API-KEY Required."))
+	}
+	c.Writer.Header().Add("X-API-KEY", xApiKey)
+
+	officerResponses := controller.OfficerService.FindAll(c.Request.Context())
 	webResponse := helper.WebResponse(http.StatusOK, "OK", officerResponses)
 	c.JSON(http.StatusOK, webResponse)
 }
