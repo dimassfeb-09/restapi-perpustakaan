@@ -4,6 +4,7 @@ import (
 	"github.com/dimassfeb-09/restapi-perpustakaan/model/domain"
 	"github.com/dimassfeb-09/restapi-perpustakaan/model/web/book"
 	"github.com/dimassfeb-09/restapi-perpustakaan/model/web/categories"
+	"github.com/dimassfeb-09/restapi-perpustakaan/model/web/officer"
 	"github.com/dimassfeb-09/restapi-perpustakaan/model/web/user"
 )
 
@@ -22,7 +23,6 @@ func ToUserResponses(domainUsers []domain.User) []user.UserResponse {
 	for _, data := range domainUsers {
 		userResponses = append(userResponses, ToUserResponse(data))
 	}
-
 	return userResponses
 }
 
@@ -38,7 +38,6 @@ func ToCategoryResponses(domainCategories []domain.Categories) []categories.Cate
 	for _, data := range domainCategories {
 		categoryResponses = append(categoryResponses, ToCategoryResponse(data))
 	}
-
 	return categoryResponses
 }
 
@@ -57,6 +56,23 @@ func ToBookResponses(domainBooks []domain.Book) []book.BookResponse {
 	for _, data := range domainBooks {
 		bookResponses = append(bookResponses, ToBookResponse(data))
 	}
-
 	return bookResponses
+}
+
+func ToOfficerResponse(domainOfficer domain.Officer) officer.OfficerResponse {
+	return officer.OfficerResponse{
+		Id:       domainOfficer.Id,
+		Name:     domainOfficer.Name,
+		Position: domainOfficer.Position,
+		Phone:    domainOfficer.Phone,
+		Address:  domainOfficer.Address,
+	}
+}
+
+func ToOfficerResponses(domainOfficer []domain.Officer) []officer.OfficerResponse {
+	var officerResponses []officer.OfficerResponse
+	for _, data := range domainOfficer {
+		officerResponses = append(officerResponses, ToOfficerResponse(data))
+	}
+	return officerResponses
 }

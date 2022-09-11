@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"github.com/dimassfeb-09/restapi-perpustakaan/exception"
 	"github.com/dimassfeb-09/restapi-perpustakaan/helper"
 	"github.com/dimassfeb-09/restapi-perpustakaan/model/web/book"
 	"github.com/dimassfeb-09/restapi-perpustakaan/service"
@@ -21,7 +22,9 @@ func (controller *BookControllerImpl) Create(c *gin.Context) {
 	var bookRequestCreate book.BookCreateRequest
 
 	err := c.ShouldBindJSON(&bookRequestCreate)
-	helper.ErrorShouldBind(c, err, http.StatusBadRequest, "Status Bad Request")
+	if err != nil {
+		panic(exception.NewErrorShouldBind(err.Error()))
+	}
 
 	bookResponse := controller.BookService.Create(c.Request.Context(), bookRequestCreate)
 
@@ -37,7 +40,9 @@ func (controller *BookControllerImpl) Update(c *gin.Context) {
 	var bookUpdateRequest book.BookUpdateRequest
 
 	errMsg := c.ShouldBindJSON(&bookUpdateRequest)
-	helper.ErrorShouldBind(c, errMsg, http.StatusBadRequest, "Status Bad Request")
+	if errMsg != nil {
+		panic(exception.NewErrorShouldBind(errMsg.Error()))
+	}
 
 	bookUpdateRequest.Id = bookIdInt
 	bookResponse := controller.BookService.Update(c.Request.Context(), bookUpdateRequest)

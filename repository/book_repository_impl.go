@@ -4,7 +4,6 @@ import (
 	"context"
 	"database/sql"
 	"errors"
-	"fmt"
 	"github.com/dimassfeb-09/restapi-perpustakaan/helper"
 	"github.com/dimassfeb-09/restapi-perpustakaan/model/domain"
 	"strconv"
@@ -27,7 +26,6 @@ func (repository *BookRepositoryImpl) Create(ctx context.Context, tx *sql.Tx, bo
 	helper.PanicIfError(err)
 
 	book.Id = int(lastInsertId)
-	fmt.Println(book)
 	return book
 }
 
@@ -63,14 +61,14 @@ func (repository *BookRepositoryImpl) FindAll(ctx context.Context, tx *sql.Tx) [
 }
 
 func (repository *BookRepositoryImpl) FindById(ctx context.Context, tx *sql.Tx, bookId int) (domain.Book, error) {
-	SQL := "SELECT id, category_id, create_at, stock, products_status FROM books WHERE id = ?"
+	SQL := "SELECT id, name, category_id, create_at, stock, products_status FROM books WHERE id = ?"
 	rows, err := tx.QueryContext(ctx, SQL, bookId)
 	helper.PanicIfError(err)
 	defer rows.Close()
 
 	var book domain.Book
 	if rows.Next() {
-		err := rows.Scan(&book.Id, &book.CategoryId, &book.CreateAt, &book.Stock, &book.ProductsStatus)
+		err := rows.Scan(&book.Id, &book.Name, &book.CategoryId, &book.CreateAt, &book.Stock, &book.ProductsStatus)
 		helper.PanicIfError(err)
 		return book, nil
 	} else {

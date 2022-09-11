@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"github.com/dimassfeb-09/restapi-perpustakaan/exception"
 	"github.com/dimassfeb-09/restapi-perpustakaan/helper"
 	"github.com/dimassfeb-09/restapi-perpustakaan/model/web/categories"
 	"github.com/dimassfeb-09/restapi-perpustakaan/service"
@@ -21,7 +22,9 @@ func (controller *CategoriesControllerImpl) Create(c *gin.Context) {
 	var categoriesRequestCreate categories.CategoriesCreateRequest
 
 	err := c.ShouldBindJSON(&categoriesRequestCreate)
-	helper.ErrorShouldBind(c, err, http.StatusBadRequest, "Status Bad Request")
+	if err != nil {
+		panic(exception.NewErrorShouldBind(err.Error()))
+	}
 
 	categoriesResponse := controller.CategoriesService.Create(c.Request.Context(), categoriesRequestCreate)
 
@@ -37,7 +40,9 @@ func (controller *CategoriesControllerImpl) Update(c *gin.Context) {
 	var categoriesUpdateRequest categories.CategoriesUpdateRequest
 
 	errMsg := c.ShouldBindJSON(&categoriesUpdateRequest)
-	helper.ErrorShouldBind(c, errMsg, http.StatusBadRequest, "Status Bad Request")
+	if errMsg != nil {
+		panic(exception.NewErrorShouldBind(errMsg.Error()))
+	}
 
 	categoriesUpdateRequest.Id = categoryIdInt
 	categoriesResponse := controller.CategoriesService.Update(c.Request.Context(), categoriesUpdateRequest)

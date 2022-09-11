@@ -13,11 +13,13 @@ func main() {
 	initializedUser := app.NewInitializedUser(db)
 	initializerCategory := app.NewInitializedCategories(db)
 	initializerBook := app.NewInitializedBook(db)
+	initializedOfficer := app.NewInitializedOfficer(db)
 
 	r := app.NewRouter()
 	app.NewUserRouter(r, initializedUser)
 	app.NewCategoryRouter(r, initializerCategory)
 	app.NewBookRouter(r, initializerBook)
+	app.NewOfficerRouter(r, initializedOfficer)
 
 	err := r.Run()
 	helper.PanicIfError(err)

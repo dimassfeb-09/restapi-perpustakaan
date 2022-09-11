@@ -32,3 +32,13 @@ func NewInitializedBook(db *sql.DB) controller.BookController {
 
 	return bookController
 }
+
+func NewInitializedOfficer(db *sql.DB) controller.OfficerController {
+	categoriesRepository := repository.NewCategoriesRepositoryImpl()
+
+	officerRepository := repository.NewOfficerRepositoryImpl()
+	officerService := service.NewOfficerServiceImpl(db, officerRepository, categoriesRepository)
+	officerController := controller.NewOfficerControllerImpl(officerService)
+
+	return officerController
+}

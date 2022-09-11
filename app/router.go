@@ -37,3 +37,11 @@ func NewBookRouter(r *gin.Engine, bookController controller.BookController) {
 	r.GET("/book/:bookId", bookController.FindById)
 	r.GET("/book", bookController.FindAll)
 }
+
+func NewOfficerRouter(r *gin.Engine, officerController controller.OfficerController) {
+	r.POST("/officer/add", officerController.Create)
+	r.PUT("/officer/update/:officerId", officerController.Update)
+	r.DELETE("/officer/delete/:officerId", officerController.Delete)
+	r.GET("/officer/:officerId", officerController.FindById)
+	r.GET("/officer", officerController.FindAll)
+}

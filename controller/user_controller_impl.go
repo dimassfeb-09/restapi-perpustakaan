@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"github.com/dimassfeb-09/restapi-perpustakaan/exception"
 	"github.com/dimassfeb-09/restapi-perpustakaan/helper"
 	"github.com/dimassfeb-09/restapi-perpustakaan/model/web/user"
 	"github.com/dimassfeb-09/restapi-perpustakaan/service"
@@ -22,7 +23,9 @@ func (controller *UserControllerImpl) Create(c *gin.Context) {
 	var createRequest user.UserCreateRequest
 
 	err := c.ShouldBindJSON(&createRequest)
-	helper.ErrorShouldBind(c, err, http.StatusBadRequest, "Status Bad Request")
+	if err != nil {
+		panic(exception.NewErrorShouldBind(err.Error()))
+	}
 
 	userResponse := controller.UserService.Create(c.Request.Context(), createRequest)
 
@@ -34,7 +37,9 @@ func (controller *UserControllerImpl) Update(c *gin.Context) {
 
 	var updateRequest user.UserUpdateRequest
 	err := c.ShouldBindJSON(&updateRequest)
-	helper.ErrorShouldBind(c, err, http.StatusBadRequest, "Status Bad Request")
+	if err != nil {
+		panic(exception.NewErrorShouldBind(err.Error()))
+	}
 
 	userId := c.Param("id")
 	userIdInt, err := strconv.Atoi(userId)

@@ -28,6 +28,10 @@ func ErrorHandler(c *gin.Context, recovered interface{}) {
 		return
 	}
 
+	if errorShouldBind(c, recovered) == true {
+		return
+	}
+
 }
 
 func errorForbidden(c *gin.Context, recovered interface{}) bool {
@@ -38,7 +42,17 @@ func errorForbidden(c *gin.Context, recovered interface{}) bool {
 		c.JSON(http.StatusForbidden, webResponse)
 		return true
 	}
+	return false
+}
 
+func errorShouldBind(c *gin.Context, recovered interface{}) bool {
+	err, ok := recovered.(ErrorShouldBind)
+
+	if ok {
+		webResponse := helper.WebResponse(http.StatusBadRequest, "Bad Request", err)
+		c.JSON(http.StatusBadRequest, webResponse)
+		return true
+	}
 	return false
 }
 
@@ -50,7 +64,6 @@ func errorBadRequest(c *gin.Context, recovered interface{}) bool {
 		c.JSON(http.StatusBadRequest, webResponse)
 		return true
 	}
-
 	return false
 }
 
@@ -62,7 +75,6 @@ func notFoundErr(c *gin.Context, recovered interface{}) bool {
 		c.JSON(http.StatusNotFound, webResponse)
 		return true
 	}
-
 	return false
 }
 
@@ -74,7 +86,6 @@ func errorDataRegistered(c *gin.Context, recovered interface{}) bool {
 		c.JSON(http.StatusBadRequest, webResponse)
 		return true
 	}
-
 	return false
 }
 
@@ -86,6 +97,5 @@ func internalServerError(c *gin.Context, recovered interface{}) bool {
 		c.JSON(http.StatusInternalServerError, webResponse)
 		return true
 	}
-
 	return false
 }

@@ -3,7 +3,6 @@ package service
 import (
 	"context"
 	"database/sql"
-	"fmt"
 	"github.com/dimassfeb-09/restapi-perpustakaan/exception"
 	"github.com/dimassfeb-09/restapi-perpustakaan/helper"
 	"github.com/dimassfeb-09/restapi-perpustakaan/model/domain"
@@ -30,6 +29,11 @@ func (service *BookServiceImpl) Create(ctx context.Context, request book.BookCre
 		panic(exception.NewErrorBadRequest("Produk status harus in_stock atau out_of_stock"))
 	}
 
+	_, errMsg := service.CategoryRepository.FindById(ctx, tx, request.CategoryId)
+	if errMsg != nil {
+		panic(exception.NewErrorBadRequest(errMsg.Error()))
+	}
+
 	domainBook := domain.Book{
 		Name:           request.Name,
 		CategoryId:     request.CategoryId,
@@ -38,7 +42,6 @@ func (service *BookServiceImpl) Create(ctx context.Context, request book.BookCre
 	}
 
 	createResponse := service.BookRepository.Create(ctx, tx, domainBook)
-	fmt.Println(createResponse)
 
 	return helper.ToBookResponse(createResponse)
 }
