@@ -29,3 +29,11 @@ func NewCategoryRouter(r *gin.Engine, categoryController controller.CategoriesCo
 	r.GET("/category/:categoryId", categoryController.FindById)
 	r.GET("/category", categoryController.FindAll)
 }
+
+func NewBookRouter(r *gin.Engine, bookController controller.BookController) {
+	r.POST("/book/add", bookController.Create)
+	r.PUT("/book/update/:bookId", bookController.Update)
+	r.DELETE("/book/delete/:bookId", bookController.Delete)
+	r.GET("/book/:bookId", bookController.FindById)
+	r.GET("/book", bookController.FindAll)
+}

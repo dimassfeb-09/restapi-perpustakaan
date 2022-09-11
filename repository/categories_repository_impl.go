@@ -41,7 +41,7 @@ func (repository *CategoriesRepositoryImpl) Delete(ctx context.Context, tx *sql.
 	SQL := "DELETE FROM categories WHERE id = ?"
 	_, err := tx.ExecContext(ctx, SQL, categoryId)
 	if err != nil {
-		panic(exception.NewErrorBadRequest("Tidak dapat menghapus kategori yang terdapat buku"))
+		panic(exception.NewErrorForbidden("Tidak dapat menghapus kategori yang terdapat buku"))
 	}
 }
 

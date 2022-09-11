@@ -2,6 +2,7 @@ package helper
 
 import (
 	"github.com/dimassfeb-09/restapi-perpustakaan/model/domain"
+	"github.com/dimassfeb-09/restapi-perpustakaan/model/web/book"
 	"github.com/dimassfeb-09/restapi-perpustakaan/model/web/categories"
 	"github.com/dimassfeb-09/restapi-perpustakaan/model/web/user"
 )
@@ -13,7 +14,6 @@ func ToUserResponse(domainUser domain.User) user.UserResponse {
 		Username: domainUser.Username,
 		Email:    domainUser.Email,
 		Level:    domainUser.Level,
-		CreateAt: domainUser.CreateAt,
 	}
 }
 
@@ -40,4 +40,23 @@ func ToCategoryResponses(domainCategories []domain.Categories) []categories.Cate
 	}
 
 	return categoryResponses
+}
+
+func ToBookResponse(domainBook domain.Book) book.BookResponse {
+	return book.BookResponse{
+		Id:             domainBook.Id,
+		Name:           domainBook.Name,
+		CategoryId:     domainBook.CategoryId,
+		Stock:          domainBook.Stock,
+		ProductsStatus: domainBook.ProductsStatus,
+	}
+}
+
+func ToBookResponses(domainBooks []domain.Book) []book.BookResponse {
+	var bookResponses []book.BookResponse
+	for _, data := range domainBooks {
+		bookResponses = append(bookResponses, ToBookResponse(data))
+	}
+
+	return bookResponses
 }

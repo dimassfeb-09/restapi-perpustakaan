@@ -16,6 +16,10 @@ func ErrorHandler(c *gin.Context, recovered interface{}) {
 		return
 	}
 
+	if errorForbidden(c, recovered) == true {
+		return
+	}
+
 	if notFoundErr(c, recovered) == true {
 		return
 	}
@@ -24,6 +28,18 @@ func ErrorHandler(c *gin.Context, recovered interface{}) {
 		return
 	}
 
+}
+
+func errorForbidden(c *gin.Context, recovered interface{}) bool {
+	err, ok := recovered.(ErrorForbidden)
+
+	if ok {
+		webResponse := helper.WebResponse(http.StatusForbidden, "Forbidden", err)
+		c.JSON(http.StatusForbidden, webResponse)
+		return true
+	}
+
+	return false
 }
 
 func errorBadRequest(c *gin.Context, recovered interface{}) bool {

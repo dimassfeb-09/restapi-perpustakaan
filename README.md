@@ -36,7 +36,6 @@ func notFoundErr(c *gin.Context, recovered interface{}) bool {
 		c.JSON(http.StatusNotFound, webResponse)
 		return true
 	}
-
 	return false
 }
 ```
@@ -46,13 +45,13 @@ Lokasi: [/exception](/exception)
 - **Model** digunakan untuk menyimpan data dalam bentuk objek, contoh:
 ```go
 type User struct {
-	Id       int     `json:"id"`
-	Name     string  `json:"name"`
-	Username string  `json:"username"`
-	Password string  `json:"password"`
-	Email    string  `json:"email"`
-	Level    string  `json:"level"`
-	CreateAt []uint8 `json:"create_at"`
+	Id       int       `json:"id"`
+	Name     string    `json:"name"`
+	Username string    `json:"username"`
+	Password string    `json:"password"`
+	Email    string    `json:"email"`
+	Level    string    `json:"level"`
+	CreateAt time.Time `json:"create_at"`
 }
 ```
 Lokasi [/model/domain/](/model/domain/)
@@ -64,13 +63,11 @@ Lokasi [/model/domain/](/model/domain/)
 - **Request** digunakan controller untuk menyimpan data yang diinput oleh user ke dalam model, contoh:
 ```go
 type UserCreateRequest struct {
-	Id       int     `json:"id"`
 	Name     string  `json:"name" binding:"required"`
 	Username string  `json:"username" binding:"required"`
 	Password string  `json:"password" binding:"required"`
 	Email    string  `json:"email" binding:"required"`
 	Level    string  `json:"level" binding:"required"`
-	CreateAt []uint8 `json:"create_at"`
 }
 ```
 Lokasi: [/model/web/user](/model/web/user)

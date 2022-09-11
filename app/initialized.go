@@ -22,3 +22,13 @@ func NewInitializedCategories(db *sql.DB) controller.CategoriesController {
 
 	return categoriesController
 }
+
+func NewInitializedBook(db *sql.DB) controller.BookController {
+	categoriesRepository := repository.NewCategoriesRepositoryImpl()
+
+	bookRepository := repository.NewBookRepositoryImpl()
+	bookService := service.NewBookServiceImpl(db, bookRepository, categoriesRepository)
+	bookController := controller.NewBookControllerImpl(bookService)
+
+	return bookController
+}
