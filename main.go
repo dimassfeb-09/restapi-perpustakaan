@@ -21,6 +21,6 @@ func main() {
 	app.NewBookRouter(r, initializerBook)
 	app.NewOfficerRouter(r, initializedOfficer)
 
-	err := r.Run()
+	err := r.Run(":8080")
 	helper.PanicIfError(err)
 }
