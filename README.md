@@ -39,7 +39,8 @@
 | `PUT` 	| [Here](/docs/book/BookPut.md) 		| **Update Data** 	|
 | `DELETE` 	| [Here](/docs/book/BookDelete.md) 		| **Delete Data** 	|
 
-
+## Diagram Table Database
+<img src="https://i.ibb.co/QC7R6rH/image.png" height="400px" width="800px">
 
 # Required
 ## Go Controller, Service, Repository
