@@ -1,21 +1,42 @@
 # API Documentation
 
 ## Users API
-- POST 
-  - End Point:`/user/add`
-  - Docs [Here](/docs/user/UserPost.md)
-- PUT
-  - End Point: `/user/update/{userId}`
-  - Docs [Here](/docs/user/UserPut.md)
-- DELETE
-  - End Point: `/user/delete/{userId}`
-  - Docs [Here](/docs/user/UserDelete.md)
-- GET BY ID
-  - End Point: `/user/{userId}`
-  - Docs [Here](/docs/user/UserGetById.md)
-- GET ALL
-  - End Point: `/user`
-  - Docs [Here](/docs/user/UserGetAll.md)
+| Method 	| Documentation     			| Description		| 
+| :-------- 	| :------- 				| :--------------------	|
+| `GET`		| [Here](/docs/user/UserGet.md) 	| **Get All**		|
+| `GET` 	| [Here](/docs/user/UserGetById.md) 	| **Get By ID** 	|
+| `POST` 	| [Here](/docs/user/UserPost.md) 	| **Add Data** 		|
+| `PUT` 	| [Here](/docs/user/UserPut.md) 	| **Update Data** 	|
+| `DELETE` 	| [Here](/docs/user/UserDelete.md) 	| **Delete Data** 	|
+
+
+## Category API
+| METHOD 	| Documentation     				| Description		|
+| :-------- 	| :------- 					| :--------------------	|
+| `GET`		| [Here](/docs/category/CategoryGetAll.md) 	| **Get All**		|
+| `GET` 	| [Here](/docs/category/CategoryGetById.md) 	| **Get By ID** 	|
+| `POST` 	| [Here](/docs/category/CategoryPost.md) 	| **Add Data** 		|
+| `PUT` 	| [Here](/docs/category/CategoryPut.md) 	| **Update Data** 	|
+| `DELETE` 	| [Here](/docs/category/CategoryDelete.md) 	| **Delete Data** 	|
+
+## Officer API
+| METHOD 	| Documentation     				| Description		|
+| :-------- 	| :------- 					| :--------------------	|
+| `GET`		| [Here](/docs/officer/OfficerGetAll.md) 	| **Get All**		|
+| `GET` 	| [Here](/docs/officer/OfficerGetById.md) 	| **Get By ID** 	|
+| `POST` 	| [Here](/docs/officer/OfficerPost.md) 		| **Add Data** 		|
+| `PUT` 	| [Here](/docs/officer/OfficerPut.md) 		| **Update Data** 	|
+| `DELETE` 	| [Here](/docs/officer/OfficerDelete.md) 	| **Delete Data** 	|
+
+
+## Book API
+| METHOD 	| Documentation     				| Description		|
+| :-------- 	| :------- 					| :--------------------	|
+| `GET`		| [Here](/docs/book/BookGetAll.md) 		| **Get All**		|
+| `GET` 	| [Here](/docs/book/BookGetById.md) 		| **Get By ID** 	|
+| `POST` 	| [Here](/docs/book/BookPost.md) 		| **Add Data** 		|
+| `PUT` 	| [Here](/docs/book/BookPut.md) 		| **Update Data** 	|
+| `DELETE` 	| [Here](/docs/book/BookDelete.md) 		| **Delete Data** 	|
 
 
 
