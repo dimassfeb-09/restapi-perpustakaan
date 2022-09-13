@@ -117,3 +117,28 @@ func (controller *UserControllerImpl) FindAll(c *gin.Context) {
 	c.JSON(http.StatusOK, webResponse)
 
 }
+
+func (controller *UserControllerImpl) LoginAuth(c *gin.Context) {
+	xApiKey := c.Request.Header.Get("X-API-KEY")
+	if xApiKey != "RAHASIA" {
+		panic(exception.NewErrorUnauthorized("X-API-KEY Required."))
+	}
+	c.Writer.Header().Add("X-API-KEY", xApiKey)
+
+	var loginAuth user.LoginAuth
+	err := c.ShouldBind(&loginAuth)
+	if err != nil {
+		panic(exception.NewErrorShouldBind(err.Error()))
+	}
+
+	userName := c.PostForm("username")
+	passWord := c.PostForm("password")
+
+	userResponse, err := controller.UserService.LoginAuth(c.Request.Context(), userName, passWord)
+	if err != nil {
+		panic(exception.NewErrorBadRequest(err.Error()))
+	}
+
+	webResponse := helper.WebResponse(http.StatusOK, "OK", userResponse)
+	c.JSON(http.StatusOK, webResponse)
+}

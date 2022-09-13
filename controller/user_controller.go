@@ -8,4 +8,5 @@ type UserController interface {
 	Delete(c *gin.Context)
 	FindById(c *gin.Context)
 	FindAll(c *gin.Context)
+	LoginAuth(c *gin.Context)
 }

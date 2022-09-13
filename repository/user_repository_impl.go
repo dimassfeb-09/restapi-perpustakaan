@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"errors"
+	"fmt"
 	"github.com/dimassfeb-09/restapi-perpustakaan/helper"
 	"github.com/dimassfeb-09/restapi-perpustakaan/model/domain"
 	"strconv"
@@ -74,19 +75,36 @@ func (repository *UserRepositoryImpl) FindByEmail(ctx context.Context, tx *sql.T
 	}
 }
 
+func (repository *UserRepositoryImpl) LoginAuth(ctx context.Context, tx *sql.Tx, username string, password string) (domain.User, error) {
+	SQL := "SELECT id, username, password FROM users WHERE username = ? AND password = ?"
+	rows, err := tx.QueryContext(ctx, SQL, username, password)
+	helper.PanicIfError(err)
+	defer rows.Close()
+
+	user := domain.User{}
+	if rows.Next() {
+		err := rows.Scan(&user.Id, &user.Username, &user.Password)
+		helper.PanicIfError(err)
+		fmt.Println(user)
+		return user, nil
+	} else {
+		return user, errors.New("Username atau Password salah")
+	}
+}
+
 func (repository *UserRepositoryImpl) FindByUsername(ctx context.Context, tx *sql.Tx, username string) (domain.User, error) {
-	SQL := "SELECT username FROM users WHERE username = ?"
+	SQL := "SELECT id, username FROM users WHERE username = ?"
 	rows, err := tx.QueryContext(ctx, SQL, username)
 	helper.PanicIfError(err)
 	defer rows.Close()
 
 	user := domain.User{}
 	if rows.Next() {
-		err := rows.Scan(&user.Username)
+		err := rows.Scan(&user.Id, &user.Username)
 		helper.PanicIfError(err)
 		return user, nil
 	} else {
-		return user, errors.New("Tidak ada data dengan Email " + user.Username)
+		return user, errors.New("Username " + username + " tidak ditemukan")
 	}
 }
 

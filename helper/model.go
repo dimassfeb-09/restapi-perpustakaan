@@ -76,3 +76,10 @@ func ToOfficerResponses(domainOfficer []domain.Officer) []officer.OfficerRespons
 	}
 	return officerResponses
 }
+
+func ToLoginUser(domainUser domain.User) user.UserLoginResponse {
+	return user.UserLoginResponse{
+		Id:       domainUser.Id,
+		Username: domainUser.Username,
+	}
+}

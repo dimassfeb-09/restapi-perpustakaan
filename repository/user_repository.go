@@ -13,5 +13,6 @@ type UserRepository interface {
 	FindById(ctx context.Context, tx *sql.Tx, userId int) (domain.User, error)
 	FindByEmail(ctx context.Context, tx *sql.Tx, email string) (domain.User, error)
 	FindByUsername(ctx context.Context, tx *sql.Tx, username string) (domain.User, error)
+	LoginAuth(ctx context.Context, tx *sql.Tx, username string, password string) (domain.User, error)
 	FindAll(ctx context.Context, tx *sql.Tx) []domain.User
 }

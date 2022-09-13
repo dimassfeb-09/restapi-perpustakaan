@@ -117,3 +117,15 @@ func (service *UserServiceImpl) FindAll(ctx context.Context) []user.UserResponse
 
 	return helper.ToUserResponses(users)
 }
+
+func (service *UserServiceImpl) LoginAuth(ctx context.Context, userName string, passWord string) (user.UserLoginResponse, error) {
+	tx, err := service.DB.Begin()
+	helper.PanicIfError(err)
+
+	userLogin, err := service.UserRepository.LoginAuth(ctx, tx, userName, passWord)
+	if err != nil {
+		panic(exception.NewErrorNotFound(err.Error()))
+	}
+
+	return helper.ToLoginUser(userLogin), nil
+}
