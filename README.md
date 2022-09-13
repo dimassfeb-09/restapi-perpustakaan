@@ -4,7 +4,7 @@
 | Method 	| Documentation     			| Description		| 
 | :-------- 	| :------- 				| :--------------------	|
 | `POST`	| [Here](/docs/user/UserPostAuth.md) 	| **Login Auth**	|
-| `GET`		| [Here](/docs/user/UserGet.md) 	| **Get All**		|
+| `GET`		| [Here](/docs/user/UserGetAll.md) 	| **Get All**		|
 | `GET` 	| [Here](/docs/user/UserGetById.md) 	| **Get By ID** 	|
 | `POST` 	| [Here](/docs/user/UserPost.md) 	| **Add Data** 		|
 | `PUT` 	| [Here](/docs/user/UserPut.md) 	| **Update Data** 	|
