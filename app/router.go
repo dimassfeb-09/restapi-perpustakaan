@@ -20,7 +20,7 @@ func NewUserRouter(r *gin.Engine, userController controller.UserController) {
 	r.DELETE("/user/delete/:id", userController.Delete)
 	r.GET("/user/:id", userController.FindById)
 	r.GET("/user", userController.FindAll)
-	r.POST("/user/login", userController.LoginAuth)
+	r.POST("/user/auth/login", userController.LoginAuth)
 }
 
 func NewCategoryRouter(r *gin.Engine, categoryController controller.CategoriesController) {

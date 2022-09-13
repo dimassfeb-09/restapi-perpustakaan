@@ -27,7 +27,7 @@ func (service *UserServiceImpl) Create(ctx context.Context, request user.UserCre
 
 	levelLower := strings.ToLower(request.Level)
 	userUsername, _ := service.UserRepository.FindByUsername(ctx, tx, request.Username)
-	userEmail, _ := service.UserRepository.FindByEmail(ctx, tx, request.Email)
+	userEmail, _ := service.UserRepository.FindByEmailCreate(ctx, tx, request.Email)
 
 	if len(request.Username) < 6 {
 		panic(exception.NewErrorBadRequest("Username harus lebih dari 6 huruf"))
@@ -58,14 +58,13 @@ func (service *UserServiceImpl) Update(ctx context.Context, request user.UserUpd
 	helper.PanicIfError(err)
 	defer helper.RollbackOrCommit(tx)
 
-	_, err = service.UserRepository.FindById(ctx, tx, request.Id)
-	if err != nil {
-		panic(exception.NewErrorNotFound(err.Error()))
-	}
+	usernameData, _ := service.UserRepository.FindByUsernameUpdate(ctx, tx, request.Username, request.Id)
+	emailData, _ := service.UserRepository.FindByEmailUpdate(ctx, tx, request.Email, request.Id)
 
-	userEmail, err := service.UserRepository.FindByEmail(ctx, tx, request.Email)
-	if userEmail.Email == request.Email {
-		panic(exception.NewErrorDataRegistered("Email telah digunakan"))
+	if usernameData.Username == request.Username {
+		panic(exception.NewErrorBadRequest("Username telah digunakan"))
+	} else if emailData.Email == request.Email {
+		panic(exception.NewErrorBadRequest("Email telah digunakan"))
 	}
 
 	userUpdate := domain.User{
@@ -75,11 +74,9 @@ func (service *UserServiceImpl) Update(ctx context.Context, request user.UserUpd
 		Password: request.Password,
 		Email:    request.Email,
 		Level:    request.Level,
-		CreateAt: request.CreateAt,
 	}
 
 	responseUser := service.UserRepository.Update(ctx, tx, userUpdate)
-
 	return helper.ToUserResponse(responseUser)
 }
 

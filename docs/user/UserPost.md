@@ -1,37 +1,20 @@
 ## POST User
 - End Point URL: `/user/add`
     - Method: `POST`
-    - Content-Type: `application/json`
-    - Accept: `application/json`
+    - Content-Type: `multipart/form-data`
+    - Accept: `multipart/form-data`
     - Header:
       | Header 	| Type     | Description                |
       | :-------- | :------- | :------------------------- |
       | `X-API-KEY` | `string` | **Required**. Your API key |
-    - Body:
-      ```json
-      {
-          "name": "string",
-          "username": "string",
-          "password": "string",
-          "email": "string",
-          "level": "string"
-      }
-      ```
-    - Response Body
-      ```json
-      {
-          "code": 200,
-          "status": "OK",
-          "data": {
-              "id": "int",
-              "name": "string",
-              "username": "string",
-              "email": "string",
-              "level": "string",
-              "create_at": "datetime"
-          }
-      }
-      ```
+    - Post Form:
+        | Key 	| Value     | Description                |
+        | :-------- | :------- | :------------------------- |
+        | `name` | `string` | **Required**. Full Name |
+        | `username` | `string` | **Required**. Username |
+        | `password` | `string` | **Required**. Password |
+        | `email` | `string` | **Required**. Email |
+        | `level` | `string` | **Required**. Level |
     - Response Error
         - Bad Not Found
       ```json

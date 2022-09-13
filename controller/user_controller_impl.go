@@ -27,7 +27,7 @@ func (controller *UserControllerImpl) Create(c *gin.Context) {
 	c.Writer.Header().Add("X-API-KEY", xApiKey)
 
 	var createRequest user.UserCreateRequest
-	err := c.ShouldBindJSON(&createRequest)
+	err := c.ShouldBind(&createRequest)
 	if err != nil {
 		panic(exception.NewErrorShouldBind(err.Error()))
 	}
@@ -47,7 +47,7 @@ func (controller *UserControllerImpl) Update(c *gin.Context) {
 	c.Writer.Header().Add("X-API-KEY", xApiKey)
 
 	var updateRequest user.UserUpdateRequest
-	err := c.ShouldBindJSON(&updateRequest)
+	err := c.ShouldBind(&updateRequest)
 	if err != nil {
 		panic(exception.NewErrorShouldBind(err.Error()))
 	}

@@ -7,16 +7,14 @@
       | Header 	| Type     | Description                |
       | :-------- | :------- | :------------------------- |
       | `X-API-KEY` | `string` | **Required**. Your API key |
-    - Body:
-      ```json
-      {
-          "name": "string",
-          "username": "string",
-          "password": "string",
-          "email": "string",
-          "level": "string"
-      }
-      ```
+    - Post Form:
+    | Key 	| Value     | Description                |
+    | :-------- | :------- | :------------------------- |
+    | `name` | `string` | **Required**. Full Name |
+    | `username` | `string` | **Required**. Username |
+    | `password` | `string` | **Required**. Password |
+    | `email` | `string` | **Required**. Email |
+    | `level` | `string` | **Required**. Level |
     - Response Body
       ```json
       {

@@ -3,11 +3,11 @@ package user
 import "time"
 
 type UserUpdateRequest struct {
-	Id       int       `json:"id"`
-	Name     string    `json:"name"`
-	Username string    `json:"username"`
-	Password string    `json:"password"`
-	Email    string    `json:"email"`
-	Level    string    `json:"level"`
-	CreateAt time.Time `json:"create_at"`
+	Id       int       `form:"id"`
+	Name     string    `form:"name" binding:"required"`
+	Username string    `form:"username" binding:"required"`
+	Password string    `form:"password" binding:"required"`
+	Email    string    `form:"email" binding:"required"`
+	Level    string    `form:"level" binding:"required"`
+	CreateAt time.Time `form:"create_at"`
 }
