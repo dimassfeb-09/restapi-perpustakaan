@@ -3,6 +3,7 @@
 ## Users API
 | Method 	| Documentation     			| Description		| 
 | :-------- 	| :------- 				| :--------------------	|
+| `POST`	| [Here](/docs/user/UserPostAuth.md) 	| **Login Auth**	|
 | `GET`		| [Here](/docs/user/UserGet.md) 	| **Get All**		|
 | `GET` 	| [Here](/docs/user/UserGetById.md) 	| **Get By ID** 	|
 | `POST` 	| [Here](/docs/user/UserPost.md) 	| **Add Data** 		|
