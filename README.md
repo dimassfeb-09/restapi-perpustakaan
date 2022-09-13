@@ -1,7 +1,7 @@
 # LINK AKSES
 Masih pakai local server untuk linknya, kalau banyak yg akses akan dimatikan sementara
 <br>
-Link: https://33d5-2001-448a-2003-6e97-b9a9-7bb3-7449-7921.ap.ngrok.io/
+Link: [https://33d5-2001-448a-2003-6e97-b9a9-7bb3-7449-7921.ap.ngrok.io/](https://5762-2001-448a-2003-6e97-b9a9-7bb3-7449-7921.ap.ngrok.io/)
 # X-API-KEY : `RAHASIA`
 Untuk Header X-API-KEY kalian bisa isi valuenya: `RAHASIA`
 
