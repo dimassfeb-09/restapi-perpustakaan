@@ -1,5 +1,5 @@
 ## POST User Auth
-- End Point URL: `/user/login`
+- End Point URL: `/user/auth/login`
     - Method: `POST`
     - Content-Type: `multipart/form-data`
     - Accept: `multipart/form-data`
