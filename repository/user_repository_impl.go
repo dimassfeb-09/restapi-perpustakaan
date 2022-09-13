@@ -76,19 +76,19 @@ func (repository *UserRepositoryImpl) FindByEmail(ctx context.Context, tx *sql.T
 }
 
 func (repository *UserRepositoryImpl) LoginAuth(ctx context.Context, tx *sql.Tx, username string, password string) (domain.User, error) {
-	SQL := "SELECT id, username, password FROM users WHERE username = ? AND password = ?"
+	SQL := "SELECT id, username FROM users WHERE username = ? AND password = ?"
 	rows, err := tx.QueryContext(ctx, SQL, username, password)
 	helper.PanicIfError(err)
 	defer rows.Close()
 
 	user := domain.User{}
 	if rows.Next() {
-		err := rows.Scan(&user.Id, &user.Username, &user.Password)
+		err := rows.Scan(&user.Id, &user.Username)
 		helper.PanicIfError(err)
 		fmt.Println(user)
 		return user, nil
 	} else {
-		return user, errors.New("Username atau Password salah")
+		return user, errors.New("Password anda salah")
 	}
 }
 

@@ -122,6 +122,15 @@ func (service *UserServiceImpl) LoginAuth(ctx context.Context, userName string, 
 	tx, err := service.DB.Begin()
 	helper.PanicIfError(err)
 
+	if userName == "" || passWord == "" {
+		panic(exception.NewErrorBadRequest("Username atau Password tidak boleh kosong"))
+	}
+
+	_, errMsg := service.UserRepository.FindByUsername(ctx, tx, userName)
+	if errMsg != nil {
+		panic(exception.NewErrorNotFound(errMsg.Error()))
+	}
+
 	userLogin, err := service.UserRepository.LoginAuth(ctx, tx, userName, passWord)
 	if err != nil {
 		panic(exception.NewErrorNotFound(err.Error()))

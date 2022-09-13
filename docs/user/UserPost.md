@@ -14,7 +14,7 @@
           "username": "string",
           "password": "string",
           "email": "string",
-          "level": "string",
+          "level": "string"
       }
       ```
     - Response Body
