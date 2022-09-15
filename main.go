@@ -14,12 +14,14 @@ func main() {
 	initializerCategory := app.NewInitializedCategories(db)
 	initializerBook := app.NewInitializedBook(db)
 	initializedOfficer := app.NewInitializedOfficer(db)
+	initializedGuestBook := app.NewInitializedGuestBook(db)
 
 	r := app.NewRouter()
 	app.NewUserRouter(r, initializedUser)
 	app.NewCategoryRouter(r, initializerCategory)
 	app.NewBookRouter(r, initializerBook)
 	app.NewOfficerRouter(r, initializedOfficer)
+	app.NewGuestBookRouter(r, initializedGuestBook)
 
 	err := r.Run(":8080")
 	helper.PanicIfError(err)

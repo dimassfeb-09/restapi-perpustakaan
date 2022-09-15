@@ -1,9 +1,9 @@
 package book
 
 type BookUpdateRequest struct {
-	Id             int    `json:"id"`
-	Name           string `json:"name"`
-	CategoryId     int    `json:"category_id"`
-	Stock          int    `json:"stock"`
-	ProductsStatus string `json:"products_status"`
+	Id             int    `form:"id"`
+	Name           string `form:"name"`
+	CategoryId     int    `form:"category_id"`
+	Stock          int    `form:"stock"`
+	ProductsStatus string `form:"products_status"`
 }

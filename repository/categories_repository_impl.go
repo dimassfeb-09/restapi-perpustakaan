@@ -78,5 +78,36 @@ func (repository *CategoriesRepositoryImpl) FindById(ctx context.Context, tx *sq
 		Id := strconv.Itoa(categoryId)
 		return category, errors.New("Category dengan ID " + Id + " tidak ditemukan")
 	}
+}
 
+func (repository *CategoriesRepositoryImpl) FindByNameCreate(ctx context.Context, tx *sql.Tx, categoryName string) (domain.Categories, error) {
+	SQL := "SELECT id, name FROM categories WHERE name = ?"
+	rows, err := tx.QueryContext(ctx, SQL, categoryName)
+	helper.PanicIfError(err)
+	defer rows.Close()
+
+	var category domain.Categories
+	if rows.Next() {
+		err := rows.Scan(&category.Id, &category.Name)
+		helper.PanicIfError(err)
+		return category, nil
+	} else {
+		return category, errors.New("Category dengan Name " + categoryName + " tidak ditemukan")
+	}
+}
+
+func (repository *CategoriesRepositoryImpl) FindByNameUpdate(ctx context.Context, tx *sql.Tx, categoryName string, categoryId int) (domain.Categories, error) {
+	SQL := "SELECT id, name FROM categories WHERE name = ? AND id != ?"
+	rows, err := tx.QueryContext(ctx, SQL, categoryName, categoryId)
+	helper.PanicIfError(err)
+	defer rows.Close()
+
+	var category domain.Categories
+	if rows.Next() {
+		err := rows.Scan(&category.Id, &category.Name)
+		helper.PanicIfError(err)
+		return category, nil
+	} else {
+		return category, errors.New("Category dengan Name " + categoryName + " tidak ditemukan")
+	}
 }

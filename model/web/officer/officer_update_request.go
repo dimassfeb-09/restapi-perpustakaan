@@ -1,9 +1,9 @@
 package officer
 
 type OfficerUpdateRequest struct {
-	Id       int    `json:"id"`
-	Name     string `json:"name" binding:"required"`
-	Position string `json:"position" binding:"required"`
-	Phone    string `json:"phone" binding:"required"`
-	Address  string `json:"address" binding:"required"`
+	Id       int    `form:"id"`
+	Name     string `form:"name" binding:"required"`
+	Position string `form:"position" binding:"required"`
+	Phone    string `form:"phone" binding:"required"`
+	Address  string `form:"address" binding:"required"`
 }

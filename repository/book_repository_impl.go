@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"errors"
+	"github.com/dimassfeb-09/restapi-perpustakaan/exception"
 	"github.com/dimassfeb-09/restapi-perpustakaan/helper"
 	"github.com/dimassfeb-09/restapi-perpustakaan/model/domain"
 	"strconv"
@@ -40,7 +41,9 @@ func (repository *BookRepositoryImpl) Update(ctx context.Context, tx *sql.Tx, bo
 func (repository *BookRepositoryImpl) Delete(ctx context.Context, tx *sql.Tx, bookId int) {
 	SQL := "DELETE FROM books WHERE id = ?"
 	_, err := tx.ExecContext(ctx, SQL, bookId)
-	helper.PanicIfError(err)
+	if err != nil {
+		panic(exception.NewErrorForbidden("Tidak dapat menghapus Buku yang dipinjam"))
+	}
 }
 
 func (repository *BookRepositoryImpl) FindAll(ctx context.Context, tx *sql.Tx) []domain.Book {

@@ -27,7 +27,7 @@ func (controller *CategoriesControllerImpl) Create(c *gin.Context) {
 	c.Writer.Header().Add("X-API-KEY", xApiKey)
 
 	var categoriesRequestCreate categories.CategoriesCreateRequest
-	err := c.ShouldBindJSON(&categoriesRequestCreate)
+	err := c.ShouldBind(&categoriesRequestCreate)
 	if err != nil {
 		panic(exception.NewErrorShouldBind(err.Error()))
 	}
@@ -52,7 +52,7 @@ func (controller *CategoriesControllerImpl) Update(c *gin.Context) {
 
 	var categoriesUpdateRequest categories.CategoriesUpdateRequest
 
-	errMsg := c.ShouldBindJSON(&categoriesUpdateRequest)
+	errMsg := c.ShouldBind(&categoriesUpdateRequest)
 	if errMsg != nil {
 		panic(exception.NewErrorShouldBind(errMsg.Error()))
 	}

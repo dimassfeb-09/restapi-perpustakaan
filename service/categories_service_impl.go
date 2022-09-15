@@ -25,12 +25,16 @@ func (service *CategoryServiceImpl) Create(ctx context.Context, request categori
 	helper.PanicIfError(err)
 	defer helper.RollbackOrCommit(tx)
 
+	findByName, _ := service.CategoriesRepository.FindByNameCreate(ctx, tx, request.Name)
+	if findByName.Name == request.Name {
+		panic(exception.NewErrorBadRequest("Category " + request.Name + " telah terdaftar"))
+	}
+
 	category := domain.Categories{
 		Name: request.Name,
 	}
 
 	categoryResponse := service.CategoriesRepository.Create(ctx, tx, category)
-
 	return helper.ToCategoryResponse(categoryResponse)
 }
 
@@ -42,6 +46,11 @@ func (service *CategoryServiceImpl) Update(ctx context.Context, request categori
 	_, err = service.CategoriesRepository.FindById(ctx, tx, request.Id)
 	if err != nil {
 		panic(exception.NewErrorNotFound(err.Error()))
+	}
+
+	findByName, _ := service.CategoriesRepository.FindByNameUpdate(ctx, tx, request.Name, request.Id)
+	if findByName.Name == request.Name {
+		panic(exception.NewErrorBadRequest("Category " + request.Name + " telah terdaftar"))
 	}
 
 	category := domain.Categories{

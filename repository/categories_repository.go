@@ -12,4 +12,6 @@ type CategoriesRepository interface {
 	Delete(ctx context.Context, tx *sql.Tx, categoryId int)
 	FindAll(ctx context.Context, tx *sql.Tx) []domain.Categories
 	FindById(ctx context.Context, tx *sql.Tx, categoryId int) (domain.Categories, error)
+	FindByNameCreate(ctx context.Context, tx *sql.Tx, categoryName string) (domain.Categories, error)
+	FindByNameUpdate(ctx context.Context, tx *sql.Tx, categoryName string, categoryId int) (domain.Categories, error)
 }

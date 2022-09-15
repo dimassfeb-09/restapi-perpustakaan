@@ -96,7 +96,9 @@ func (service *BookServiceImpl) FindById(ctx context.Context, bookId int) book.B
 	helper.PanicIfError(err)
 
 	bookResponse, err := service.BookRepository.FindById(ctx, tx, bookId)
-	helper.PanicIfError(err)
+	if err != nil {
+		panic(exception.NewErrorNotFound(err.Error()))
+	}
 
 	return helper.ToBookResponse(bookResponse)
 }

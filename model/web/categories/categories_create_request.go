@@ -1,6 +1,6 @@
 package categories
 
 type CategoriesCreateRequest struct {
-	Id   int    `json:"id"`
-	Name string `json:"name" binding:"required"`
+	Id   int    `form:"id"`
+	Name string `form:"name" binding:"required"`
 }

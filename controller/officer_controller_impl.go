@@ -27,7 +27,7 @@ func (controller *OfficerControllerImpl) Create(c *gin.Context) {
 	c.Writer.Header().Add("X-API-KEY", xApiKey)
 
 	var officerRequestCreate officer.OfficerCreateRequest
-	err := c.ShouldBindJSON(&officerRequestCreate)
+	err := c.ShouldBind(&officerRequestCreate)
 	if err != nil {
 		panic(exception.NewErrorShouldBind(err.Error()))
 	}
@@ -51,7 +51,7 @@ func (controller *OfficerControllerImpl) Update(c *gin.Context) {
 	helper.PanicIfError(err)
 
 	var officerUpdateRequest officer.OfficerUpdateRequest
-	errMsg := c.ShouldBindJSON(&officerUpdateRequest)
+	errMsg := c.ShouldBind(&officerUpdateRequest)
 	if errMsg != nil {
 		panic(exception.NewErrorShouldBind(errMsg.Error()))
 	}

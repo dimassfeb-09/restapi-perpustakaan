@@ -4,7 +4,6 @@ import (
 	"context"
 	"database/sql"
 	"errors"
-	"fmt"
 	"github.com/dimassfeb-09/restapi-perpustakaan/helper"
 	"github.com/dimassfeb-09/restapi-perpustakaan/model/domain"
 	"strconv"
@@ -101,7 +100,6 @@ func (repository *UserRepositoryImpl) LoginAuth(ctx context.Context, tx *sql.Tx,
 	if rows.Next() {
 		err := rows.Scan(&user.Id, &user.Username)
 		helper.PanicIfError(err)
-		fmt.Println(user)
 		return user, nil
 	} else {
 		return user, errors.New("Password anda salah")

@@ -27,7 +27,7 @@ func (controller *BookControllerImpl) Create(c *gin.Context) {
 	c.Writer.Header().Add("X-API-KEY", xApiKey)
 
 	var bookRequestCreate book.BookCreateRequest
-	err := c.ShouldBindJSON(&bookRequestCreate)
+	err := c.ShouldBind(&bookRequestCreate)
 	if err != nil {
 		panic(exception.NewErrorShouldBind(err.Error()))
 	}
@@ -51,7 +51,7 @@ func (controller *BookControllerImpl) Update(c *gin.Context) {
 
 	var bookUpdateRequest book.BookUpdateRequest
 
-	errMsg := c.ShouldBindJSON(&bookUpdateRequest)
+	errMsg := c.ShouldBind(&bookUpdateRequest)
 	if errMsg != nil {
 		panic(exception.NewErrorShouldBind(errMsg.Error()))
 	}

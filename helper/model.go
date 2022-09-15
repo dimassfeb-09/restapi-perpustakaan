@@ -4,6 +4,7 @@ import (
 	"github.com/dimassfeb-09/restapi-perpustakaan/model/domain"
 	"github.com/dimassfeb-09/restapi-perpustakaan/model/web/book"
 	"github.com/dimassfeb-09/restapi-perpustakaan/model/web/categories"
+	"github.com/dimassfeb-09/restapi-perpustakaan/model/web/guestbook"
 	"github.com/dimassfeb-09/restapi-perpustakaan/model/web/officer"
 	"github.com/dimassfeb-09/restapi-perpustakaan/model/web/user"
 )
@@ -75,6 +76,25 @@ func ToOfficerResponses(domainOfficer []domain.Officer) []officer.OfficerRespons
 		officerResponses = append(officerResponses, ToOfficerResponse(data))
 	}
 	return officerResponses
+}
+
+func ToGuestBookResponse(domainGuestBook domain.GuestBook) guestbook.GuestBookResponse {
+	return guestbook.GuestBookResponse{
+		Id:        domainGuestBook.Id,
+		UserId:    domainGuestBook.UserId,
+		BookId:    domainGuestBook.BookId,
+		OfficerId: domainGuestBook.OfficerId,
+		StartDate: domainGuestBook.StartDate,
+		EndDate:   domainGuestBook.EndDate,
+	}
+}
+
+func ToGuestBookResponses(domainGuestBook []domain.GuestBook) []guestbook.GuestBookResponse {
+	var guestBookResponses []guestbook.GuestBookResponse
+	for _, data := range domainGuestBook {
+		guestBookResponses = append(guestBookResponses, ToGuestBookResponse(data))
+	}
+	return guestBookResponses
 }
 
 func ToLoginUser(domainUser domain.User) user.UserLoginResponse {
