@@ -6,4 +6,5 @@ type BookUpdateRequest struct {
 	CategoryId     int    `form:"category_id"`
 	Stock          int    `form:"stock"`
 	ProductsStatus string `form:"products_status"`
+	ImgUrl         string `binding:"required" form:"img_url"`
 }

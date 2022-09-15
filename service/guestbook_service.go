@@ -11,4 +11,5 @@ type GuestBookService interface {
 	Delete(ctx context.Context, bookId int)
 	FindAll(ctx context.Context) []guestbook.GuestBookResponse
 	FindById(ctx context.Context, bookId int) guestbook.GuestBookResponse
+	FindByUserId(ctx context.Context, userId int) []guestbook.GuestBookResponsebyUserId
 }

@@ -161,3 +161,28 @@ func (service *GuestBookServiceImpl) FindById(ctx context.Context, bookId int) g
 
 	return helper.ToGuestBookResponse(guestBook)
 }
+
+func (service *GuestBookServiceImpl) FindByUserId(ctx context.Context, userId int) []guestbook.GuestBookResponsebyUserId {
+	tx, err := service.DB.Begin()
+	helper.PanicIfError(err)
+
+	_, errMsg := service.UserRepository.FindById(ctx, tx, userId)
+	if errMsg != nil {
+		panic(exception.NewErrorNotFound(errMsg.Error()))
+	}
+
+	guestBooksByUserId := service.GuestBookRepository.FindByUserId(ctx, tx, userId)
+
+	var guestBookResponsebyUserId []guestbook.GuestBookResponsebyUserId
+	for _, data := range guestBooksByUserId {
+		guestBook := guestbook.GuestBookResponsebyUserId{
+			Id:           data.Id,
+			Name:         data.Name,
+			BookName:     data.BookName,
+			CategoryName: data.CategoryName,
+		}
+		guestBookResponsebyUserId = append(guestBookResponsebyUserId, guestBook)
+	}
+
+	return guestBookResponsebyUserId
+}

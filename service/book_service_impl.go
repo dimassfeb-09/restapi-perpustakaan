@@ -39,6 +39,7 @@ func (service *BookServiceImpl) Create(ctx context.Context, request book.BookCre
 		CategoryId:     request.CategoryId,
 		Stock:          request.Stock,
 		ProductsStatus: request.ProductsStatus,
+		ImgUrl:         request.ImgUrl,
 	}
 
 	createResponse := service.BookRepository.Create(ctx, tx, domainBook)
@@ -62,6 +63,7 @@ func (service *BookServiceImpl) Update(ctx context.Context, request book.BookUpd
 		CategoryId:     request.CategoryId,
 		Stock:          request.Stock,
 		ProductsStatus: request.ProductsStatus,
+		ImgUrl:         request.ImgUrl,
 	}
 
 	createResponse := service.BookRepository.Update(ctx, tx, domainBook)

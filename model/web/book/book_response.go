@@ -6,4 +6,5 @@ type BookResponse struct {
 	CategoryId     int    `json:"category_id"`
 	Stock          int    `json:"stock"`
 	ProductsStatus string `json:"products_status"`
+	ImgUrl         string `json:"img_url"`
 }

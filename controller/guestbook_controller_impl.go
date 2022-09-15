@@ -116,3 +116,21 @@ func (controller *GuestBookControllerImpl) FindAll(c *gin.Context) {
 	c.JSON(http.StatusOK, webResponse)
 
 }
+
+func (controller *GuestBookControllerImpl) FindByUserId(c *gin.Context) {
+
+	xApiKey := c.Request.Header.Get("X-API-KEY")
+	if xApiKey != "RAHASIA" {
+		panic(exception.NewErrorUnauthorized("X-API-KEY Required."))
+	}
+	c.Writer.Header().Add("X-API-KEY", xApiKey)
+
+	userId := c.Param("userId")
+	userIdInt, err := strconv.Atoi(userId)
+	helper.PanicIfError(err)
+
+	guestBookResponsebyUserIds := controller.GuestBookService.FindByUserId(c.Request.Context(), userIdInt)
+	webResponse := helper.WebResponse(http.StatusOK, "OK", guestBookResponsebyUserIds)
+	c.JSON(http.StatusOK, webResponse)
+
+}

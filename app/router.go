@@ -53,4 +53,5 @@ func NewGuestBookRouter(r *gin.Engine, guestbookController controller.GuestBookC
 	r.DELETE("/guestbook/delete/:guestbookId", guestbookController.Delete)
 	r.GET("/guestbook/:guestbookId", guestbookController.FindById)
 	r.GET("/guestbook", guestbookController.FindAll)
+	r.GET("/guestbook/user/:userId", guestbookController.FindByUserId)
 }

@@ -9,4 +9,5 @@ type Book struct {
 	CreateAt       time.Time `json:"create_at"`
 	Stock          int       `json:"stock"`
 	ProductsStatus string    `json:"products_status"`
+	ImgUrl         string    `json:"img_url"`
 }

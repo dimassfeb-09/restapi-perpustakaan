@@ -8,4 +8,5 @@ type GuestBookController interface {
 	Delete(c *gin.Context)
 	FindById(c *gin.Context)
 	FindAll(c *gin.Context)
+	FindByUserId(c *gin.Context)
 }

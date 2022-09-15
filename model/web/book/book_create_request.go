@@ -6,4 +6,5 @@ type BookCreateRequest struct {
 	CategoryId     int    `binding:"required" form:"category_id"`
 	Stock          int    `binding:"required" form:"stock"`
 	ProductsStatus string `binding:"required" form:"products_status"`
+	ImgUrl         string `binding:"required" form:"img_url"`
 }

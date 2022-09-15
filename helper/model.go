@@ -49,6 +49,7 @@ func ToBookResponse(domainBook domain.Book) book.BookResponse {
 		CategoryId:     domainBook.CategoryId,
 		Stock:          domainBook.Stock,
 		ProductsStatus: domainBook.ProductsStatus,
+		ImgUrl:         domainBook.ImgUrl,
 	}
 }
 

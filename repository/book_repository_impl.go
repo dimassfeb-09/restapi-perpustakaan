@@ -18,9 +18,9 @@ func NewBookRepositoryImpl() BookRepository {
 }
 
 func (repository *BookRepositoryImpl) Create(ctx context.Context, tx *sql.Tx, book domain.Book) domain.Book {
-	SQL := "INSERT INTO books(name, category_id, stock, products_status) VALUES (?,?,?,?)"
+	SQL := "INSERT INTO books(name, category_id, stock, products_status, img_url) VALUES (?,?,?,?,?)"
 
-	result, err := tx.ExecContext(ctx, SQL, book.Name, book.CategoryId, book.Stock, book.ProductsStatus)
+	result, err := tx.ExecContext(ctx, SQL, book.Name, book.CategoryId, book.Stock, book.ProductsStatus, book.ImgUrl)
 	helper.PanicIfError(err)
 
 	lastInsertId, err := result.LastInsertId()
@@ -31,8 +31,8 @@ func (repository *BookRepositoryImpl) Create(ctx context.Context, tx *sql.Tx, bo
 }
 
 func (repository *BookRepositoryImpl) Update(ctx context.Context, tx *sql.Tx, book domain.Book) domain.Book {
-	SQL := "UPDATE books SET name = ?, category_id = ?, stock = ?, products_status = ? WHERE id = ?"
-	_, err := tx.ExecContext(ctx, SQL, book.Name, book.CategoryId, book.Stock, book.ProductsStatus, book.Id)
+	SQL := "UPDATE books SET name = ?, category_id = ?, stock = ?, products_status = ?, img_url = ? WHERE id = ?"
+	_, err := tx.ExecContext(ctx, SQL, book.Name, book.CategoryId, book.Stock, book.ProductsStatus, book.ImgUrl, book.Id)
 	helper.PanicIfError(err)
 
 	return book
@@ -47,7 +47,7 @@ func (repository *BookRepositoryImpl) Delete(ctx context.Context, tx *sql.Tx, bo
 }
 
 func (repository *BookRepositoryImpl) FindAll(ctx context.Context, tx *sql.Tx) []domain.Book {
-	SQL := "SELECT id, name, category_id, create_at, stock, products_status FROM books"
+	SQL := "SELECT id, name, category_id, create_at, stock, products_status, img_url FROM books"
 	rows, err := tx.QueryContext(ctx, SQL)
 	helper.PanicIfError(err)
 	defer rows.Close()
@@ -55,7 +55,7 @@ func (repository *BookRepositoryImpl) FindAll(ctx context.Context, tx *sql.Tx) [
 	var books []domain.Book
 	for rows.Next() {
 		var book domain.Book
-		err := rows.Scan(&book.Id, &book.Name, &book.CategoryId, &book.CreateAt, &book.Stock, &book.ProductsStatus)
+		err := rows.Scan(&book.Id, &book.Name, &book.CategoryId, &book.CreateAt, &book.Stock, &book.ProductsStatus, &book.ImgUrl)
 		helper.PanicIfError(err)
 		books = append(books, book)
 	}
@@ -64,14 +64,14 @@ func (repository *BookRepositoryImpl) FindAll(ctx context.Context, tx *sql.Tx) [
 }
 
 func (repository *BookRepositoryImpl) FindById(ctx context.Context, tx *sql.Tx, bookId int) (domain.Book, error) {
-	SQL := "SELECT id, name, category_id, create_at, stock, products_status FROM books WHERE id = ?"
+	SQL := "SELECT id, name, category_id, create_at, stock, products_status, img_url FROM books WHERE id = ?"
 	rows, err := tx.QueryContext(ctx, SQL, bookId)
 	helper.PanicIfError(err)
 	defer rows.Close()
 
 	var book domain.Book
 	if rows.Next() {
-		err := rows.Scan(&book.Id, &book.Name, &book.CategoryId, &book.CreateAt, &book.Stock, &book.ProductsStatus)
+		err := rows.Scan(&book.Id, &book.Name, &book.CategoryId, &book.CreateAt, &book.Stock, &book.ProductsStatus, &book.ImgUrl)
 		helper.PanicIfError(err)
 		return book, nil
 	} else {
