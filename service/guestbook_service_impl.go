@@ -28,24 +28,25 @@ func (service *GuestBookServiceImpl) Create(ctx context.Context, request guestbo
 	helper.PanicIfError(err)
 	defer helper.RollbackOrCommit(tx)
 
-	// Find User ID
+	// Find User ID, checking if User ID is Valid
 	_, err = service.UserRepository.FindById(ctx, tx, request.UserId)
 	if err != nil {
 		panic(exception.NewErrorBadRequest(err.Error()))
 	}
 
-	// Find Officer ID
+	// Find Officer ID, checking if Officer ID is Valid
 	_, err = service.OfficerRepository.FindById(ctx, tx, request.OfficerId)
 	if err != nil {
 		panic(exception.NewErrorBadRequest(err.Error()))
 	}
 
-	// Find Book ID
-	_, err = service.BookRepository.FindById(ctx, tx, request.BookId)
+	// Find Book ID, checking if Book ID is Valid
+	bookById, err := service.BookRepository.FindById(ctx, tx, request.BookId)
 	if err != nil {
 		panic(exception.NewErrorBadRequest(err.Error()))
 	}
 
+	// Check format date time, checking if Format DateTime is Valid
 	parse, err := time.Parse("2006-01-02 15:04:05", request.EndDate)
 	if err != nil {
 		panic(exception.NewErrorBadRequest("Format Date Time tidak sesuai, gunakan yyyy-dd-mm HH:mm:ss"))
@@ -55,6 +56,18 @@ func (service *GuestBookServiceImpl) Create(ctx context.Context, request guestbo
 
 	formatEndDate := parse.Format(time.RFC3339)
 	timeParseDateEnd, _ := time.Parse(time.RFC3339, formatEndDate)
+
+	// Check stock, checking if Stock is not 0
+	var bookUpdate domain.Book
+	if stock := bookById.Stock; stock == 0 {
+		panic(exception.NewErrorBadRequest("Stock buku kosong"))
+	} else {
+		bookUpdate.Stock = stock - 1
+		bookUpdate.Id = bookById.Id
+	}
+
+	// Update stock
+	_ = service.BookRepository.UpdateStock(ctx, tx, bookUpdate)
 
 	guestBook := domain.GuestBook{
 		UserId:    request.UserId,

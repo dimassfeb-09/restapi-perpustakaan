@@ -38,6 +38,14 @@ func (repository *BookRepositoryImpl) Update(ctx context.Context, tx *sql.Tx, bo
 	return book
 }
 
+func (repository *BookRepositoryImpl) UpdateStock(ctx context.Context, tx *sql.Tx, book domain.Book) domain.Book {
+	SQL := "UPDATE books SET stock = ? WHERE id = ?"
+	_, err := tx.ExecContext(ctx, SQL, book.Stock, book.Id)
+	helper.PanicIfError(err)
+
+	return book
+}
+
 func (repository *BookRepositoryImpl) Delete(ctx context.Context, tx *sql.Tx, bookId int) {
 	SQL := "DELETE FROM books WHERE id = ?"
 	_, err := tx.ExecContext(ctx, SQL, bookId)

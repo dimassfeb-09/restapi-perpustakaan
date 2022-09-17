@@ -20,12 +20,6 @@ func NewOfficerControllerImpl(officerService service.OfficerService) OfficerCont
 
 func (controller *OfficerControllerImpl) Create(c *gin.Context) {
 
-	xApiKey := c.Request.Header.Get("X-API-KEY")
-	if xApiKey != "RAHASIA" {
-		panic(exception.NewErrorUnauthorized("X-API-KEY Required."))
-	}
-	c.Writer.Header().Add("X-API-KEY", xApiKey)
-
 	var officerRequestCreate officer.OfficerCreateRequest
 	err := c.ShouldBind(&officerRequestCreate)
 	if err != nil {
@@ -39,12 +33,6 @@ func (controller *OfficerControllerImpl) Create(c *gin.Context) {
 }
 
 func (controller *OfficerControllerImpl) Update(c *gin.Context) {
-
-	xApiKey := c.Request.Header.Get("X-API-KEY")
-	if xApiKey != "RAHASIA" {
-		panic(exception.NewErrorUnauthorized("X-API-KEY Required."))
-	}
-	c.Writer.Header().Add("X-API-KEY", xApiKey)
 
 	officerId := c.Param("officerId")
 	officerIdInt, err := strconv.Atoi(officerId)
@@ -64,12 +52,6 @@ func (controller *OfficerControllerImpl) Update(c *gin.Context) {
 
 func (controller *OfficerControllerImpl) Delete(c *gin.Context) {
 
-	xApiKey := c.Request.Header.Get("X-API-KEY")
-	if xApiKey != "RAHASIA" {
-		panic(exception.NewErrorUnauthorized("X-API-KEY Required."))
-	}
-	c.Writer.Header().Add("X-API-KEY", xApiKey)
-
 	officerId := c.Param("officerId")
 	officerIdInt, err := strconv.Atoi(officerId)
 	helper.PanicIfError(err)
@@ -82,12 +64,6 @@ func (controller *OfficerControllerImpl) Delete(c *gin.Context) {
 
 func (controller *OfficerControllerImpl) FindById(c *gin.Context) {
 
-	xApiKey := c.Request.Header.Get("X-API-KEY")
-	if xApiKey != "RAHASIA" {
-		panic(exception.NewErrorUnauthorized("X-API-KEY Required."))
-	}
-	c.Writer.Header().Add("X-API-KEY", xApiKey)
-
 	officerId := c.Param("officerId")
 	officerIdInt, err := strconv.Atoi(officerId)
 	helper.PanicIfError(err)
@@ -99,12 +75,6 @@ func (controller *OfficerControllerImpl) FindById(c *gin.Context) {
 }
 
 func (controller *OfficerControllerImpl) FindAll(c *gin.Context) {
-
-	xApiKey := c.Request.Header.Get("X-API-KEY")
-	if xApiKey != "RAHASIA" {
-		panic(exception.NewErrorUnauthorized("X-API-KEY Required."))
-	}
-	c.Writer.Header().Add("X-API-KEY", xApiKey)
 
 	officerResponses := controller.OfficerService.FindAll(c.Request.Context())
 	webResponse := helper.WebResponse(http.StatusOK, "OK", officerResponses)

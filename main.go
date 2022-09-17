@@ -17,6 +17,8 @@ func main() {
 	initializedGuestBook := app.NewInitializedGuestBook(db)
 
 	r := app.NewRouter()
+	r.Use(helper.MiddleWare)
+
 	app.NewUserRouter(r, initializedUser)
 	app.NewCategoryRouter(r, initializerCategory)
 	app.NewBookRouter(r, initializerBook)

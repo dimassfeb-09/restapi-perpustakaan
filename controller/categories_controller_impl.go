@@ -20,12 +20,6 @@ func NewCategoriesControllerImpl(categoriesService service.CategoriesService) Ca
 
 func (controller *CategoriesControllerImpl) Create(c *gin.Context) {
 
-	xApiKey := c.Request.Header.Get("X-API-KEY")
-	if xApiKey != "RAHASIA" {
-		panic(exception.NewErrorUnauthorized("X-API-KEY Required."))
-	}
-	c.Writer.Header().Add("X-API-KEY", xApiKey)
-
 	var categoriesRequestCreate categories.CategoriesCreateRequest
 	err := c.ShouldBind(&categoriesRequestCreate)
 	if err != nil {
@@ -39,12 +33,6 @@ func (controller *CategoriesControllerImpl) Create(c *gin.Context) {
 }
 
 func (controller *CategoriesControllerImpl) Update(c *gin.Context) {
-
-	xApiKey := c.Request.Header.Get("X-API-KEY")
-	if xApiKey != "RAHASIA" {
-		panic(exception.NewErrorUnauthorized("X-API-KEY Required."))
-	}
-	c.Writer.Header().Add("X-API-KEY", xApiKey)
 
 	categoryId := c.Param("categoryId")
 	categoryIdInt, err := strconv.Atoi(categoryId)
@@ -65,12 +53,6 @@ func (controller *CategoriesControllerImpl) Update(c *gin.Context) {
 
 func (controller *CategoriesControllerImpl) Delete(c *gin.Context) {
 
-	xApiKey := c.Request.Header.Get("X-API-KEY")
-	if xApiKey != "RAHASIA" {
-		panic(exception.NewErrorUnauthorized("X-API-KEY Required."))
-	}
-	c.Writer.Header().Add("X-API-KEY", xApiKey)
-
 	categoryId := c.Param("categoryId")
 	categoryIdInt, err := strconv.Atoi(categoryId)
 	helper.PanicIfError(err)
@@ -83,12 +65,6 @@ func (controller *CategoriesControllerImpl) Delete(c *gin.Context) {
 
 func (controller *CategoriesControllerImpl) FindById(c *gin.Context) {
 
-	xApiKey := c.Request.Header.Get("X-API-KEY")
-	if xApiKey != "RAHASIA" {
-		panic(exception.NewErrorUnauthorized("X-API-KEY Required."))
-	}
-	c.Writer.Header().Add("X-API-KEY", xApiKey)
-
 	categoryId := c.Param("categoryId")
 	categoryIdInt, err := strconv.Atoi(categoryId)
 	helper.PanicIfError(err)
@@ -100,12 +76,6 @@ func (controller *CategoriesControllerImpl) FindById(c *gin.Context) {
 }
 
 func (controller *CategoriesControllerImpl) FindAll(c *gin.Context) {
-
-	xApiKey := c.Request.Header.Get("X-API-KEY")
-	if xApiKey != "RAHASIA" {
-		panic(exception.NewErrorUnauthorized("X-API-KEY Required."))
-	}
-	c.Writer.Header().Add("X-API-KEY", xApiKey)
 
 	categoriesResponses := controller.CategoriesService.FindAll(c.Request.Context())
 	webResponse := helper.WebResponse(http.StatusOK, "OK", categoriesResponses)

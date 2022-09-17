@@ -20,12 +20,6 @@ func NewGuestBookControllerImpl(guestBookService service.GuestBookService) Guest
 
 func (controller *GuestBookControllerImpl) Create(c *gin.Context) {
 
-	xApiKey := c.Request.Header.Get("X-API-KEY")
-	if xApiKey != "RAHASIA" {
-		panic(exception.NewErrorUnauthorized("X-API-KEY Required."))
-	}
-	c.Writer.Header().Add("X-API-KEY", xApiKey)
-
 	var createRequest guestbook.GuestBookCreateRequest
 	err := c.ShouldBind(&createRequest)
 	if err != nil {
@@ -39,12 +33,6 @@ func (controller *GuestBookControllerImpl) Create(c *gin.Context) {
 }
 
 func (controller *GuestBookControllerImpl) Update(c *gin.Context) {
-
-	xApiKey := c.Request.Header.Get("X-API-KEY")
-	if xApiKey != "RAHASIA" {
-		panic(exception.NewErrorUnauthorized("X-API-KEY Required."))
-	}
-	c.Writer.Header().Add("X-API-KEY", xApiKey)
 
 	var updateRequest guestbook.GuestBookUpdateRequest
 	errMsg := c.ShouldBind(&updateRequest)
@@ -65,12 +53,6 @@ func (controller *GuestBookControllerImpl) Update(c *gin.Context) {
 
 func (controller *GuestBookControllerImpl) Delete(c *gin.Context) {
 
-	xApiKey := c.Request.Header.Get("X-API-KEY")
-	if xApiKey != "RAHASIA" {
-		panic(exception.NewErrorUnauthorized("X-API-KEY Required."))
-	}
-	c.Writer.Header().Add("X-API-KEY", xApiKey)
-
 	guestbookId := c.Param("guestbookId")
 	guestbookIdInt, err := strconv.Atoi(guestbookId)
 	helper.PanicIfError(err)
@@ -87,12 +69,6 @@ func (controller *GuestBookControllerImpl) Delete(c *gin.Context) {
 
 func (controller *GuestBookControllerImpl) FindById(c *gin.Context) {
 
-	xApiKey := c.Request.Header.Get("X-API-KEY")
-	if xApiKey != "RAHASIA" {
-		panic(exception.NewErrorUnauthorized("X-API-KEY Required."))
-	}
-	c.Writer.Header().Add("X-API-KEY", xApiKey)
-
 	guestbookId := c.Param("guestbookId")
 	guestbookIdInt, err := strconv.Atoi(guestbookId)
 	helper.PanicIfError(err)
@@ -105,12 +81,6 @@ func (controller *GuestBookControllerImpl) FindById(c *gin.Context) {
 
 func (controller *GuestBookControllerImpl) FindAll(c *gin.Context) {
 
-	xApiKey := c.Request.Header.Get("X-API-KEY")
-	if xApiKey != "RAHASIA" {
-		panic(exception.NewErrorUnauthorized("X-API-KEY Required."))
-	}
-	c.Writer.Header().Add("X-API-KEY", xApiKey)
-
 	guestbookResponses := controller.GuestBookService.FindAll(c.Request.Context())
 	webResponse := helper.WebResponse(http.StatusOK, "OK", guestbookResponses)
 	c.JSON(http.StatusOK, webResponse)
@@ -118,12 +88,6 @@ func (controller *GuestBookControllerImpl) FindAll(c *gin.Context) {
 }
 
 func (controller *GuestBookControllerImpl) FindByUserId(c *gin.Context) {
-
-	xApiKey := c.Request.Header.Get("X-API-KEY")
-	if xApiKey != "RAHASIA" {
-		panic(exception.NewErrorUnauthorized("X-API-KEY Required."))
-	}
-	c.Writer.Header().Add("X-API-KEY", xApiKey)
 
 	userId := c.Param("userId")
 	userIdInt, err := strconv.Atoi(userId)

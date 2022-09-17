@@ -20,12 +20,6 @@ func NewBookControllerImpl(bookService service.BookService) BookController {
 
 func (controller *BookControllerImpl) Create(c *gin.Context) {
 
-	xApiKey := c.Request.Header.Get("X-API-KEY")
-	if xApiKey != "RAHASIA" {
-		panic(exception.NewErrorUnauthorized("X-API-KEY Required."))
-	}
-	c.Writer.Header().Add("X-API-KEY", xApiKey)
-
 	var bookRequestCreate book.BookCreateRequest
 	err := c.ShouldBind(&bookRequestCreate)
 	if err != nil {
@@ -39,11 +33,6 @@ func (controller *BookControllerImpl) Create(c *gin.Context) {
 }
 
 func (controller *BookControllerImpl) Update(c *gin.Context) {
-	xApiKey := c.Request.Header.Get("X-API-KEY")
-	if xApiKey != "RAHASIA" {
-		panic(exception.NewErrorUnauthorized("X-API-KEY Required."))
-	}
-	c.Writer.Header().Add("X-API-KEY", xApiKey)
 
 	bookId := c.Param("bookId")
 	bookIdInt, err := strconv.Atoi(bookId)
@@ -64,12 +53,6 @@ func (controller *BookControllerImpl) Update(c *gin.Context) {
 
 func (controller *BookControllerImpl) Delete(c *gin.Context) {
 
-	xApiKey := c.Request.Header.Get("X-API-KEY")
-	if xApiKey != "RAHASIA" {
-		panic(exception.NewErrorUnauthorized("X-API-KEY Required."))
-	}
-	c.Writer.Header().Add("X-API-KEY", xApiKey)
-
 	bookId := c.Param("bookId")
 	bookIdInt, err := strconv.Atoi(bookId)
 	helper.PanicIfError(err)
@@ -82,12 +65,6 @@ func (controller *BookControllerImpl) Delete(c *gin.Context) {
 
 func (controller *BookControllerImpl) FindById(c *gin.Context) {
 
-	xApiKey := c.Request.Header.Get("X-API-KEY")
-	if xApiKey != "RAHASIA" {
-		panic(exception.NewErrorUnauthorized("X-API-KEY Required."))
-	}
-	c.Writer.Header().Add("X-API-KEY", xApiKey)
-
 	bookId := c.Param("bookId")
 	bookIdInt, err := strconv.Atoi(bookId)
 	helper.PanicIfError(err)
@@ -99,12 +76,6 @@ func (controller *BookControllerImpl) FindById(c *gin.Context) {
 }
 
 func (controller *BookControllerImpl) FindAll(c *gin.Context) {
-
-	xApiKey := c.Request.Header.Get("X-API-KEY")
-	if xApiKey != "RAHASIA" {
-		panic(exception.NewErrorUnauthorized("X-API-KEY Required."))
-	}
-	c.Writer.Header().Add("X-API-KEY", xApiKey)
 
 	bookResponses := controller.BookService.FindAll(c.Request.Context())
 	webResponse := helper.WebResponse(http.StatusOK, "OK", bookResponses)

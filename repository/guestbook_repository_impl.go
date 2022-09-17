@@ -85,8 +85,8 @@ func (repository *GuestBookRepositoryImpl) FindByUserId(ctx context.Context, tx 
         JOIN users user on user.id = guestbook.user_id
             JOIN books book on book.id = guestbook.book_id
                 JOIN categories category on book.category_id = category.id
-                    WHERE user_id = 75`
-	rows, err := tx.QueryContext(ctx, SQL)
+                    WHERE user_id = ?`
+	rows, err := tx.QueryContext(ctx, SQL, userId)
 	helper.PanicIfError(err)
 	defer rows.Close()
 
